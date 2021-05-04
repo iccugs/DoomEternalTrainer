@@ -6,3 +6,18 @@ The CT file is the cheat engine table that I made using a pointer address for th
 The rest of the repository is an actual fully fleshed out trainer that runs in a C++ console window for Windows.
 
 If you don't want to go through the trouble of compiling everything from source, just go into the x64/debug folders and use the DOOMEternalTrainer.exe file.
+
+
+Screenshots:
+
+<p align="center">
+  <img src="./screenshots/1.png" />
+</p>
+<br>
+<p align="center">
+  <img src="./screenshots/2.png" />
+</p>
+<br>
+<p align="center">
+  <img src="./screenshots/3.png" />
+</p>
