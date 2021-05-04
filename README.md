@@ -11,13 +11,13 @@ If you don't want to go through the trouble of compiling everything from source,
 Screenshots:
 
 <p align="center">
-  <img src="./screenshots/1.png" />
+  <img src="./screenshots/1.PNG" />
 </p>
 <br>
 <p align="center">
-  <img src="./screenshots/2.png" />
+  <img src="./screenshots/2.PNG" />
 </p>
 <br>
 <p align="center">
-  <img src="./screenshots/3.png" />
+  <img src="./screenshots/3.PNG" />
 </p>
