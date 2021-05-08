@@ -14,10 +14,11 @@ int main()
 	//put variables here
 	HANDLE hProcess = 0;
 
-	uintptr_t moduleBase = 0, playerPtr = 0, healthAddr = 0;
-	bool bHealth = false, bAmmo = false, bSword = false, bHammer = false, bGrenades = false, bFlame = false, bDash = false, bPunch = false;
+	uintptr_t moduleBase = 0, playerPtr = 0, healthAddr = 0, armorAddr = 0;
+	bool bHealth = false, bArmor = false, bRadO2 = false, bAmmo = false, bSword = false;
+	bool bHammer = false, bGrenades = false, bFlame = false, bDash = false, bPunch = false;
 
-	const float maxHealth = 999;
+	const float maxHealth = 999, maxArmor = 999;
 
 	DWORD procId = GetProcId(L"DOOMEternalx64vk.exe");
 
@@ -26,18 +27,23 @@ int main()
 	{
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, procId);
 
+		//define process base address
+		moduleBase = GetModuleBaseAddress(procId, L"DOOMEternalx64vk.exe");
+
 		ConsoleColors();
 		AsciiArt();
 		getchar();
 		ClearScreen();
 		AsciiMenu();
-		std::cout << "Infinite Health = " << bHealth << std::endl;
-		std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-		std::cout << "Infinite Sword = " << bSword << std::endl;
-		std::cout << "Infinite Hammer = " << bHammer << std::endl;
-		std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-		std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-		std::cout << "Infinite Dash = " << bDash << std::endl;
+		std::cout << "Infinite Health = " << bHealth << "\n";
+		std::cout << "Infinite Armor = " << bArmor << "\n";
+		std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+		std::cout << "Infinite Ammo = " << bAmmo << "\n";
+		std::cout << "Infinite Sword = " << bSword << "\n";
+		std::cout << "Infinite Hammer = " << bHammer << "\n";
+		std::cout << "Infinite Grenades = " << bGrenades << "\n";
+		std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+		std::cout << "Infinite Dash = " << bDash << "\n";
 		std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 	}
 	//exit trainer if process not found
@@ -54,12 +60,12 @@ int main()
 
 	while (GetExitCodeProcess(hProcess, &dwExit) && dwExit == STILL_ACTIVE)
 	{
-		//get process base address
-		moduleBase = GetModuleBaseAddress(procId, L"DOOMEternalx64vk.exe");
-
-		//get health addr pointer
+		//define player pointer address
 		playerPtr = moduleBase + 0x0660D210;
+
+		//scan for health and armor pointer addresses
 		healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00, 0x20, 0x74 });
+		armorAddr = FindDMAAddy(hProcess, playerPtr, { 0x00, 0x20, 0xD4 });
 
 		//infinite health toggle
 		if (GetAsyncKeyState(VK_NUMPAD0) & 1)
@@ -70,38 +76,126 @@ int main()
 			{
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
 			{
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
-		
+
 		//continuous write to health
 		if (bHealth)
 		{
 			mem::PatchEx((BYTE*)healthAddr, (BYTE*)&maxHealth, sizeof(maxHealth), hProcess);
 		}
 
-		//infinite ammo
+		//infinite armor toggle
 		if (GetAsyncKeyState(VK_NUMPAD1) & 1)
+		{
+			bArmor = !bArmor;
+
+			if (bArmor)
+			{
+				ClearScreen();
+				AsciiMenu();
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
+				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
+			}
+			else
+			{
+				ClearScreen();
+				AsciiMenu();
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
+				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
+			}
+		}
+		
+		//continuous write to armor
+		if (bArmor)
+		{
+			mem::PatchEx((BYTE*)armorAddr, (BYTE*)&maxArmor, sizeof(maxArmor), hProcess);
+		}
+
+		//infinite rad/o2 toggle
+		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
+		{
+			bRadO2 = !bRadO2;
+
+			if (bRadO2)
+			{
+				mem::NopEx((BYTE*)(moduleBase + 0x174FE39), 5, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x140D236), 8, hProcess);
+				ClearScreen();
+				AsciiMenu();
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
+				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
+			}
+			else
+			{
+				mem::PatchEx((BYTE*)(moduleBase + 0x174FE39), (BYTE*)"\xF3\x0F\x11\x5B\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x140D236), (BYTE*)"\xF3\x0F\x11\xA2\xD0\x04\x00\x00", 8, hProcess);
+				ClearScreen();
+				AsciiMenu();
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
+				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
+			}
+		}
+
+		//infinite ammo
+		if (GetAsyncKeyState(VK_NUMPAD3) & 1)
 		{
 			bAmmo = !bAmmo;
 
@@ -110,13 +204,15 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1B1C678), (BYTE*)"\x29\x73\x40", 3, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -124,19 +220,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1B1C678), (BYTE*)"\x01\x73\x40", 3, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite sword
-		if (GetAsyncKeyState(VK_NUMPAD2) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD4) & 1)
 		{
 			bSword = !bSword;
 
@@ -145,13 +243,15 @@ int main()
 				mem::NopEx((BYTE*)(moduleBase + 0x1750062), 5, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -159,19 +259,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1750062), (BYTE*)"\xF3\x0F\x11\x5B\x08", 5, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite hammer and chainsaw
-		if (GetAsyncKeyState(VK_NUMPAD3) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD5) & 1)
 		{
 			bHammer = !bHammer;
 
@@ -180,13 +282,15 @@ int main()
 				mem::NopEx((BYTE*)(moduleBase + 0x1B1188C), 7, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -194,19 +298,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1B1188C), (BYTE*)"\x44\x89\xA8\x04\x67\x02\x00", 7, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite grenades
-		if (GetAsyncKeyState(VK_NUMPAD4) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD6) & 1)
 		{
 			bGrenades = !bGrenades;
 
@@ -215,13 +321,15 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\xEB\x0F", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -229,19 +337,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\x75\x0F", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite flamethrower
-		if (GetAsyncKeyState(VK_NUMPAD5) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD7) & 1)
 		{
 			bFlame = !bFlame;
 
@@ -250,13 +360,15 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\xEB\x0A", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -264,19 +376,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\x75\x0A", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite dash
-		if (GetAsyncKeyState(VK_NUMPAD6) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD8) & 1)
 		{
 			bDash = !bDash;
 
@@ -285,13 +399,15 @@ int main()
 				mem::NopEx((BYTE*)(moduleBase + 0x174FDCA), 5, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -299,19 +415,21 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x174FDCA), (BYTE*)"\xF3\x0F\x11\x5F\x08", 5, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
 
 		//infinite blood punch
-		if (GetAsyncKeyState(VK_NUMPAD7) & 1)
+		if (GetAsyncKeyState(VK_NUMPAD9) & 1)
 		{
 			bPunch = !bPunch;
 
@@ -320,13 +438,15 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\xEB\x14", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 			else
@@ -334,13 +454,15 @@ int main()
 				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\x75\x14", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
-				std::cout << "Infinite Health = " << bHealth << std::endl;
-				std::cout << "Infinite Ammo = " << bAmmo << std::endl;
-				std::cout << "Infinite Sword = " << bSword << std::endl;
-				std::cout << "Infinite Hammer = " << bHammer << std::endl;
-				std::cout << "Infinite Grenades = " << bGrenades << std::endl;
-				std::cout << "Infinite Flamethrower = " << bFlame << std::endl;
-				std::cout << "Infinite Dash = " << bDash << std::endl;
+				std::cout << "Infinite Health = " << bHealth << "\n";
+				std::cout << "Infinite Armor = " << bArmor << "\n";
+				std::cout << "Infinite Rad/O2 = " << bRadO2 << "\n";
+				std::cout << "Infinite Ammo = " << bAmmo << "\n";
+				std::cout << "Infinite Sword = " << bSword << "\n";
+				std::cout << "Infinite Hammer = " << bHammer << "\n";
+				std::cout << "Infinite Grenades = " << bGrenades << "\n";
+				std::cout << "Infinite Flamethrower = " << bFlame << "\n";
+				std::cout << "Infinite Dash = " << bDash << "\n";
 				std::cout << "Infinite Blood Punch = " << bPunch << std::endl;
 			}
 		}
@@ -351,7 +473,7 @@ int main()
 			return 0;
 		}
 
-		Sleep(500);
+		Sleep(10);
 	}
 	ClearScreen();
 	ConsoleColors();
