@@ -102,9 +102,7 @@ label(return)
 newmem:
 
 code:
-  nop
-  nop
-  nop
+  sub [rbx+40],esi
   mov esi,[rbx+40]
   jmp return
 
@@ -591,7 +589,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
     <CheatEntry>
       <ID>47</ID>
       <Description>"health actual pointer"</Description>
-      <LastState Value="100" RealAddress="25776428484"/>
+      <LastState Value="200" RealAddress="1947EC82584"/>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>Float</VariableType>
       <Address>"DOOMEternalx64vk.exe"+0660D210</Address>

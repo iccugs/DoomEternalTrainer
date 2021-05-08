@@ -107,7 +107,7 @@ int main()
 
 			if (bAmmo)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x1B1C678), 3, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1B1C678), (BYTE*)"\x29\x73\x40", 3, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -212,7 +212,7 @@ int main()
 
 			if (bGrenades)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\xEB", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\xEB\x0F", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -226,7 +226,7 @@ int main()
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\x75", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x9FE4003), (BYTE*)"\x75\x0F", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -247,7 +247,7 @@ int main()
 
 			if (bFlame)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\xEB", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\xEB\x0A", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -261,7 +261,7 @@ int main()
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\x75", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\x75\x0A", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -317,7 +317,7 @@ int main()
 
 			if (bPunch)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\xEB", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\xEB\x14", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
@@ -331,7 +331,7 @@ int main()
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\x75", 1, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\x75\x14", 2, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << std::endl;
