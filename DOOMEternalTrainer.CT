@@ -81,6 +81,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
     <CheatEntry>
       <ID>47</ID>
       <Description>"health pointer"</Description>
+      <LastState Value="999" RealAddress="1E198B1AE64"/>
       <ShowAsSigned>0</ShowAsSigned>
       <VariableType>Float</VariableType>
       <Address>"DOOMEternalx64vk.exe"+0660D210</Address>
@@ -93,6 +94,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
     <CheatEntry>
       <ID>59</ID>
       <Description>"armor pointer"</Description>
+      <LastState Value="999" RealAddress="1E198B1AEC4"/>
       <VariableType>Float</VariableType>
       <Address>"DOOMEternalx64vk.exe"+0660D210</Address>
       <Offsets>
@@ -103,8 +105,8 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
     </CheatEntry>
     <CheatEntry>
       <ID>68</ID>
-      <Description>"Infinite Rad Suit"</Description>
-      <Options moHideChildren="1" moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+      <Description>"Infinite Rad/O2"</Description>
+      <Options moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -255,6 +257,83 @@ DOOMEternalx64vk.exe+140D25C: E8 2F 28 0E FF           - call DOOMEternalx64vk.e
 DOOMEternalx64vk.exe+140D261: 4C 8B C0                 - mov r8,rax
 DOOMEternalx64vk.exe+140D264: 48 89 5C 24 20           - mov [rsp+20],rbx
 DOOMEternalx64vk.exe+140D269: 45 33 C9                 - xor r9d,r9d
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>73</ID>
+          <Description>"Infinite O2 display"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
+  Version: 
+  Date   : 2021-05-08
+  Author : Paradox
+
+  Infinite O2 Display Script
+}
+
+[ENABLE]
+
+aobscanmodule(infO2Display,DOOMEternalx64vk.exe,F3 0F 11 A2 B8 06 00 00) // should be unique
+alloc(newmem,$1000,infO2Display)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
+  jmp return
+
+infO2Display:
+  jmp newmem
+  nop 3
+return:
+registersymbol(infO2Display)
+
+[DISABLE]
+
+infO2Display:
+  db F3 0F 11 A2 B8 06 00 00
+
+unregistersymbol(infO2Display)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+140D0A6
+
+DOOMEternalx64vk.exe+140D07B: F3 0F 2C F0              - cvttss2si esi,xmm0
+DOOMEternalx64vk.exe+140D07F: F3 0F 11 9A B0 06 00 00  - movss [rdx+000006B0],xmm3
+DOOMEternalx64vk.exe+140D087: 0F 28 C3                 - movaps xmm0,xmm3
+DOOMEternalx64vk.exe+140D08A: F3 41 0F 58 50 04        - addss xmm2,[r8+04]
+DOOMEternalx64vk.exe+140D090: 0F 29 74 24 30           - movaps [rsp+30],xmm6
+DOOMEternalx64vk.exe+140D095: 0F 28 E2                 - movaps xmm4,xmm2
+DOOMEternalx64vk.exe+140D098: 0F 57 D2                 - xorps xmm2,xmm2
+DOOMEternalx64vk.exe+140D09B: F3 0F 5D E3              - minss xmm4,xmm3
+DOOMEternalx64vk.exe+140D09F: 0F 28 C2                 - movaps xmm0,xmm2
+DOOMEternalx64vk.exe+140D0A2: F3 0F 5F E2              - maxss xmm4,xmm2
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+140D0A6: F3 0F 11 A2 B8 06 00 00  - movss [rdx+000006B8],xmm4
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+140D0AE: F3 41 0F 10 70 04        - movss xmm6,[r8+04]
+DOOMEternalx64vk.exe+140D0B4: 0F 2F F2                 - comiss xmm6,xmm2
+DOOMEternalx64vk.exe+140D0B7: 76 33                    - jna DOOMEternalx64vk.exe+140D0EC
+DOOMEternalx64vk.exe+140D0B9: 48 89 5C 24 50           - mov [rsp+50],rbx
+DOOMEternalx64vk.exe+140D0BE: 48 8D 8A 68 07 00 00     - lea rcx,[rdx+00000768]
+DOOMEternalx64vk.exe+140D0C5: 48 8D 9A C0 06 00 00     - lea rbx,[rdx+000006C0]
+DOOMEternalx64vk.exe+140D0CC: E8 BF 29 0E FF           - call DOOMEternalx64vk.exe+4EFA90
+DOOMEternalx64vk.exe+140D0D1: 4C 8B C0                 - mov r8,rax
+DOOMEternalx64vk.exe+140D0D4: 48 89 5C 24 20           - mov [rsp+20],rbx
+DOOMEternalx64vk.exe+140D0D9: 45 33 C9                 - xor r9d,r9d
 }
 </AssemblerScript>
         </CheatEntry>
@@ -997,7 +1076,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>41</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of movss [rbx+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+174FE39</AddressString>
       <Before>
@@ -1022,7 +1101,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>20</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of movss xmm0,[rcx+08]</Description>
       <AddressString>DOOMEternalx64vk.exe+21A78D0</AddressString>
       <Before>
@@ -1047,7 +1126,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>CC</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of movss xmm0,[rbx+08]</Description>
       <AddressString>DOOMEternalx64vk.exe+1752951</AddressString>
       <Before>
@@ -1070,6 +1149,34 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>6F</Byte>
         <Byte>0D</Byte>
         <Byte>02</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="80000008">
+      <Description>Change of movss [rdx+000006B8],xmm4</Description>
+      <AddressString>DOOMEternalx64vk.exe+140D0A6</AddressString>
+      <Before>
+        <Byte>C2</Byte>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>5F</Byte>
+        <Byte>E2</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>A2</Byte>
+        <Byte>B8</Byte>
+        <Byte>06</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>F3</Byte>
+        <Byte>41</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>70</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>

@@ -162,6 +162,7 @@ int main()
 			{
 				mem::NopEx((BYTE*)(moduleBase + 0x174FE39), 5, hProcess);
 				mem::NopEx((BYTE*)(moduleBase + 0x140D236), 8, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x140D0A6), 8, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << "\n";
@@ -179,6 +180,7 @@ int main()
 			{
 				mem::PatchEx((BYTE*)(moduleBase + 0x174FE39), (BYTE*)"\xF3\x0F\x11\x5B\x08", 5, hProcess);
 				mem::PatchEx((BYTE*)(moduleBase + 0x140D236), (BYTE*)"\xF3\x0F\x11\xA2\xD0\x04\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x140D0A6), (BYTE*)"\xF3\x0F\x11\xA2\xB8\x06\x00\x00", 8, hProcess);
 				ClearScreen();
 				AsciiMenu();
 				std::cout << "Infinite Health = " << bHealth << "\n";
