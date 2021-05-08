@@ -8,3 +8,5 @@ void AsciiArt();
 void AsciiMenu();
 
 void ClearScreen();
+
+void ConsoleColors();

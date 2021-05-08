@@ -79,3 +79,10 @@ void ClearScreen()
 	/* Move the cursor home */
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
+
+void ConsoleColors()
+{
+	//set console colors
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, 12);
+}

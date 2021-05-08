@@ -12,8 +12,6 @@
 int main()
 {	
 	//put variables here
-
-
 	HANDLE hProcess = 0;
 
 	uintptr_t moduleBase = 0, playerPtr = 0, healthAddr = 0;
@@ -28,9 +26,7 @@ int main()
 	{
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, procId);
 
-		//set console colors
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, 12);
+		ConsoleColors();
 		AsciiArt();
 		getchar();
 		ClearScreen();
@@ -47,6 +43,7 @@ int main()
 	//exit trainer if process not found
 	else
 	{
+		ConsoleColors();
 		std::cout << "DOOMEternal process not found, press enter to exit\n";
 		getchar();
 		return 0;
@@ -57,6 +54,13 @@ int main()
 
 	while (GetExitCodeProcess(hProcess, &dwExit) && dwExit == STILL_ACTIVE)
 	{
+		//get process base address
+		moduleBase = GetModuleBaseAddress(procId, L"DOOMEternalx64vk.exe");
+
+		//get health addr pointer
+		playerPtr = moduleBase + 0x0660D210;
+		healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00, 0x20, 0x74 });
+
 		//infinite health toggle
 		if (GetAsyncKeyState(VK_NUMPAD0) & 1)
 		{
@@ -93,10 +97,6 @@ int main()
 		//continuous write to health
 		if (bHealth)
 		{
-			//pointer scan for health address
-			moduleBase = GetModuleBaseAddress(procId, L"DOOMEternalx64vk.exe");
-			playerPtr = moduleBase + 0x0660D210;
-			healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00, 0x20, 0x74 });
 			mem::PatchEx((BYTE*)healthAddr, (BYTE*)&maxHealth, sizeof(maxHealth), hProcess);
 		}
 
@@ -354,6 +354,7 @@ int main()
 		Sleep(500);
 	}
 	ClearScreen();
+	ConsoleColors();
 	std::cout << "DOOMEternal process not found, press enter to exit\n";
 	getchar();
 	return 0;
