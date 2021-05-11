@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "mem.h"
-
 void mem::PatchEx(BYTE* dst, BYTE* src, unsigned int size, HANDLE hProcess)
 {
 	DWORD oldprotect;
@@ -15,5 +14,5 @@ void mem::NopEx(BYTE* dst, unsigned int size, HANDLE hProcess)
 	memset(nopArray, 0x90, size);
 
 	PatchEx(dst, nopArray, size, hProcess);
-	delete[] nopArray;
+	delete[]nopArray;
 }
