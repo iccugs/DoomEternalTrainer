@@ -11,7 +11,7 @@ If you don't want to go through the trouble of compiling everything from source,
 Screenshots:
 
 <p align="center">
-  <img src="./screenshots/1.PNG" />
+  <img src="./screenshots/1.jpg" />
 </p>
 <br>
 <p align="center">
