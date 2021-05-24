@@ -25,16 +25,20 @@ void AsciiArt()
 	std::cout<<"                                      By: Paradox\n\n";
 	std::cout << "press enter to continue...\n";
 }
+
 void ClearScreen()
 {
+
 	HANDLE hStdOut;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD count,cellCount;
-	COORD homeCoords={0,0};
-	hStdOut=GetStdHandle(STD_OUTPUT_HANDLE);
-	if(hStdOut == INVALID_HANDLE_VALUE)return;
-	if(!GetConsoleScreenBufferInfo(hStdOut,&csbi))return;
-	cellCount=csbi.dwSize.X*csbi.dwSize.Y;
+	DWORD count, cellCount;
+	COORD homeCoords = { 0,0 };
+
+	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (hStdOut == INVALID_HANDLE_VALUE)return;
+	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))return;
+	cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+
 	if (!FillConsoleOutputCharacter(
 		hStdOut,
 		(TCHAR)' ',
@@ -42,12 +46,15 @@ void ClearScreen()
 		homeCoords,
 		&count
 	))return;
-	if(!FillConsoleOutputAttribute(
+
+	if (!FillConsoleOutputAttribute(
 		hStdOut,
 		csbi.wAttributes,
 		cellCount,
 		homeCoords,
 		&count
 	))return;
-	SetConsoleCursorPosition(hStdOut,homeCoords);
+
+	SetConsoleCursorPosition(hStdOut, homeCoords);
+
 }
