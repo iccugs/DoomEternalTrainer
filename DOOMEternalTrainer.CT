@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>74</ID>
-      <Description>"Health"</Description>
+      <Description>"Health/Armor"</Description>
       <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
       <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
@@ -15,10 +15,9 @@
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-28
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Health Script
+  Description: Infinite Health Script
 }
 
 [ENABLE]
@@ -56,6 +55,84 @@ infHealth+0B:
 unregistersymbol(infHealth)
 dealloc(newmem)
 
+//Release
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+CF9242
+
+DOOMEternalx64vk.exe+CF9210: 48 3B 83 E0 00 00 00     - cmp rax,[rbx+000000E0]
+DOOMEternalx64vk.exe+CF9217: 74 07                    - je DOOMEternalx64vk.exe+CF9220
+DOOMEternalx64vk.exe+CF9219: 48 89 83 E0 00 00 00     - mov [rbx+000000E0],rax
+DOOMEternalx64vk.exe+CF9220: 0F B6 44 24 56           - movzx eax,byte ptr [rsp+56]
+DOOMEternalx64vk.exe+CF9225: 0F 28 C6                 - movaps xmm0,xmm6
+DOOMEternalx64vk.exe+CF9228: F3 0F 58 83 D8 00 00 00  - addss xmm0,[rbx+000000D8]
+DOOMEternalx64vk.exe+CF9230: F3 0F 11 83 D8 00 00 00  - movss [rbx+000000D8],xmm0
+DOOMEternalx64vk.exe+CF9238: 84 C0                    - test al,al
+DOOMEternalx64vk.exe+CF923A: 75 0C                    - jne DOOMEternalx64vk.exe+CF9248
+DOOMEternalx64vk.exe+CF923C: F3 0F 10 44 24 4C        - movss xmm0,[rsp+4C]
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+CF9242: F3 0F 11 44 1E 1C        - movss [rsi+rbx+1C],xmm0
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+CF9248: 80 7C 24 54 00           - cmp byte ptr [rsp+54],00
+DOOMEternalx64vk.exe+CF924D: 48 8B B4 24 F8 00 00 00  - mov rsi,[rsp+000000F8]
+DOOMEternalx64vk.exe+CF9255: F3 0F 10 7C 24 48        - movss xmm7,[rsp+48]
+DOOMEternalx64vk.exe+CF925B: F3 0F 11 3E              - movss [rsi],xmm7
+DOOMEternalx64vk.exe+CF925F: 0F 84 0F 01 00 00        - je DOOMEternalx64vk.exe+CF9374
+DOOMEternalx64vk.exe+CF9265: 48 8B 03                 - mov rax,[rbx]
+DOOMEternalx64vk.exe+CF9268: 41 0F 28 C8              - movaps xmm1,xmm8
+DOOMEternalx64vk.exe+CF926C: 48 8B CB                 - mov rcx,rbx
+DOOMEternalx64vk.exe+CF926F: FF 90 98 01 00 00        - call qword ptr [rax+00000198]
+DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>75</ID>
+          <Description>"Infinite Armor Script"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
+  Version: 
+  Date   : 2021-05-25
+  Author : Paradox
+  Description: Infinite Armor Script
+}
+
+[ENABLE]
+
+aobscanmodule(infArmor,DOOMEternalx64vk.exe,00 84 C0 75 0C F3 0F 10 44 24 4C F3 0F 11 44 1E 1C) // should be unique
+alloc(newmem,$1000,infArmor)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  pushf
+  cmp [rsi+rbx+108],0
+  je @f
+  movss [rsi+rbx+14],xmm0
+  movss xmm0,[rsi+rbx+1C]
+  @@:
+  popf
+  movss [rsi+rbx+1C],xmm0
+  jmp return
+
+infArmor+0B:
+  jmp newmem
+  nop
+return:
+registersymbol(infArmor)
+
+[DISABLE]
+
+infArmor+0B:
+  db F3 0F 11 44 1E 1C
+
+unregistersymbol(infArmor)
+dealloc(newmem)
+
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+CF9242
 
@@ -88,6 +165,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>47</ID>
           <Description>"health pointer"</Description>
+          <LastState Value="200" RealAddress="23306645E34"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+0660D210</Address>
@@ -100,6 +178,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>59</ID>
           <Description>"armor pointer"</Description>
+          <LastState Value="150" RealAddress="23306645E94"/>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+0660D210</Address>
           <Offsets>
@@ -124,43 +203,26 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
   Version: 
-  Date   : 2021-05-08
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Radiation Suit Health Script
+  Description: Infinite Radiation Suit Health Script
 }
 
 [ENABLE]
-
-aobscanmodule(infRad,DOOMEternalx64vk.exe,0C F3 0F 5F D8 0F 28 CB F3 0F 11 5B 08 0F) // should be unique
-alloc(newmem,$1000,infRad)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infRad+08:
-  jmp newmem
-return:
+define(infRad,DOOMEternalx64vk.exe+174FE39)
+assert(infRad,F3 0F 11 5B 08)
 registersymbol(infRad)
 
-[DISABLE]
+infRad:
+  db 90 90 90 90 90 // NOP array
 
-infRad+08:
-  db F3 0F 11 5B 08
+[DISABLE]
+infRad:
+  db F3 0F 11 5B 08 // movss [rbx+08],xmm3
 
 unregistersymbol(infRad)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+174FE39
 
@@ -197,47 +259,26 @@ DOOMEternalx64vk.exe+174FE54: 88 51 7B        - mov [rcx+7B],dl
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
   Version: 
-  Date   : 2021-05-08
+  Date   : 2021-05-25
   Author : Paradox
-
-  Lock Rad Suit Display Health
+  Description: Lock Rad Suit Display Health
 }
 
 [ENABLE]
-
-aobscanmodule(infRaddisplay,DOOMEternalx64vk.exe,F3 0F 11 A2 D0 04 00 00) // should be unique
-alloc(newmem,$1000,infRaddisplay)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infRaddisplay:
-  jmp newmem
-  nop 3
-return:
+define(infRaddisplay,DOOMEternalx64vk.exe+140D236)
+assert(infRaddisplay,F3 0F 11 A2 D0 04 00 00)
 registersymbol(infRaddisplay)
 
-[DISABLE]
-
 infRaddisplay:
-  db F3 0F 11 A2 D0 04 00 00
+  db 90 90 90 90 90 90 90 90 // NOP array
+
+[DISABLE]
+infRaddisplay:
+  db F3 0F 11 A2 D0 04 00 00 // movss [rdx+000004D0],xmm4
 
 unregistersymbol(infRaddisplay)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+140D236
 
@@ -274,47 +315,26 @@ DOOMEternalx64vk.exe+140D269: 45 33 C9                 - xor r9d,r9d
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
   Version: 
-  Date   : 2021-05-08
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite O2 Display Script
+  Description: Infinite O2 Display Script
 }
 
 [ENABLE]
-
-aobscanmodule(infO2Display,DOOMEternalx64vk.exe,F3 0F 11 A2 B8 06 00 00) // should be unique
-alloc(newmem,$1000,infO2Display)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infO2Display:
-  jmp newmem
-  nop 3
-return:
+define(infO2Display,DOOMEternalx64vk.exe+140D0A6)
+assert(infO2Display,F3 0F 11 A2 B8 06 00 00)
 registersymbol(infO2Display)
 
-[DISABLE]
-
 infO2Display:
-  db F3 0F 11 A2 B8 06 00 00
+  db 90 90 90 90 90 90 90 90 // NOP array
+
+[DISABLE]
+infO2Display:
+  db F3 0F 11 A2 B8 06 00 00 // movss [rdx+000006B8],xmm4
 
 unregistersymbol(infO2Display)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+140D0A6
 
@@ -353,41 +373,26 @@ DOOMEternalx64vk.exe+140D0D9: 45 33 C9                 - xor r9d,r9d
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-28
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Ammo Script
+  Description: Infinite Ammo Script
 }
 
 [ENABLE]
-
-aobscanmodule(infAmmo,DOOMEternalx64vk.exe,01 73 40 8B 73 40)
-alloc(newmem,$1000,infAmmo)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  sub [rbx+40],esi
-  mov esi,[rbx+40]
-  jmp return
-
-infAmmo:
-  jmp newmem
-  nop
-return:
+define(infAmmo,DOOMEternalx64vk.exe+1B1C678)
+assert(infAmmo,01 73 40)
 registersymbol(infAmmo)
 
-[DISABLE]
-
 infAmmo:
-  db 01 73 40 8B 73 40
+  db 29 73 40 // sub [rbx+40],esi
+
+[DISABLE]
+infAmmo:
+  db 01 73 40 // add [rbx+40],esi
 
 unregistersymbol(infAmmo)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1B1C678
 
@@ -424,43 +429,26 @@ DOOMEternalx64vk.exe+1B1C695: 8B FE              - mov edi,esi
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-28
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Sword Script
+  Description: Infinite Sword Script
 }
 
 [ENABLE]
-
-aobscanmodule(infSword,DOOMEternalx64vk.exe,F3 0F 11 5B 08 FF 50 48 0F) // should be unique
-alloc(newmem,$1000,infSword)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infSword:
-  jmp newmem
-return:
+define(infSword,DOOMEternalx64vk.exe+1750062)
+assert(infSword,F3 0F 11 5B 08)
 registersymbol(infSword)
 
-[DISABLE]
+infSword:
+  db 90 90 90 90 90 // NOP array
 
+[DISABLE]
 infSword:
   db F3 0F 11 5B 08
 
 unregistersymbol(infSword)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1750062
 
@@ -497,46 +485,26 @@ DOOMEternalx64vk.exe+1750079: CC              - int 3
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-29
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Hammer Script
+  Description: Infinite Hammer Script
 }
 
 [ENABLE]
-
-aobscanmodule(infHammer,DOOMEternalx64vk.exe,44 89 A8 04 67 02 00) // should be unique
-alloc(newmem,$1000,infHammer)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infHammer:
-  jmp newmem
-  nop 2
-return:
+define(infHammer,DOOMEternalx64vk.exe+1B1188C)
+assert(infHammer,44 89 A8 04 67 02 00)
 registersymbol(infHammer)
 
-[DISABLE]
+infHammer:
+  db 90 90 90 90 90 90 90 // NOP array
 
+[DISABLE]
 infHammer:
   db 44 89 A8 04 67 02 00
 
 unregistersymbol(infHammer)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1B1188C
 
@@ -573,42 +541,26 @@ DOOMEternalx64vk.exe+1B118AF: CC                    - int 3
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-29
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Grenade Script
+  Description: Infinite Grenade Script
 }
 
 [ENABLE]
-
-aobscanmodule(infGrenades,DOOMEternalx64vk.exe,75 0F 84 DB 75 0B) // should be unique
-alloc(newmem,$1000,infGrenades)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  jmp DOOMEternalx64vk.exe+9FE4014
-  test bl,bl
-  jne DOOMEternalx64vk.exe+9FE4014
-  jmp return
-
-infGrenades:
-  jmp newmem
-  nop
-return:
+define(infGrenades,DOOMEternalx64vk.exe+9FE4003)
+assert(infGrenades,75 0F)
 registersymbol(infGrenades)
 
-[DISABLE]
-
 infGrenades:
-  db 75 0F 84 DB 75 0B
+  db EB 0F // jmp DOOMEternalx64vk.exe+9FE4014
+
+[DISABLE]
+infGrenades:
+  db 75 0F // jne DOOMEternalx64vk.exe+9FE4014
 
 unregistersymbol(infGrenades)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+9FE4003
 
@@ -645,42 +597,26 @@ DOOMEternalx64vk.exe+9FE4031: 48 8B 87 E8 F0 02 00  - mov rax,[rdi+0002F0E8]
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-29
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Flamethrower Script
+  Description: Infinite Flamethrower Script
 }
 
 [ENABLE]
-
-aobscanmodule(infFlamethrower,DOOMEternalx64vk.exe,75 0A 84 DB 75 06) // should be unique
-alloc(newmem,$1000,infFlamethrower)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  jmp DOOMEternalx64vk.exe+9FE40AD
-  test bl,bl
-  jne DOOMEternalx64vk.exe+9FE40AD
-  jmp return
-
-infFlamethrower:
-  jmp newmem
-  nop
-return:
+define(infFlamethrower,DOOMEternalx64vk.exe+9FE40A1)
+assert(infFlamethrower,75 0A)
 registersymbol(infFlamethrower)
 
-[DISABLE]
-
 infFlamethrower:
-  db 75 0A 84 DB 75 06
+  db EB 0A // jmp DOOMEternalx64vk.exe+9FE40AD
+
+[DISABLE]
+infFlamethrower:
+  db 75 0A // jne DOOMEternalx64vk.exe+9FE40AD
 
 unregistersymbol(infFlamethrower)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+9FE40A1
 
@@ -717,43 +653,26 @@ DOOMEternalx64vk.exe+9FE40D1: 48 8D 4D CF                    - lea rcx,[rbp-31]
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-30
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Dash Script
+  Description: Infinite Dash Script
 }
 
 [ENABLE]
-
-aobscanmodule(infDash,DOOMEternalx64vk.exe,F3 0F 11 5F 08 48) // should be unique
-alloc(newmem,$1000,infDash)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  nop
-  nop
-  nop
-  nop
-  nop
-  jmp return
-
-infDash:
-  jmp newmem
-return:
+define(infDash,DOOMEternalx64vk.exe+174FDCA)
+assert(infDash,F3 0F 11 5F 08)
 registersymbol(infDash)
 
-[DISABLE]
-
 infDash:
-  db F3 0F 11 5F 08
+  db 90 90 90 90 90 // NOP array
+
+[DISABLE]
+infDash:
+  db F3 0F 11 5F 08 // movss [rdi+08],xmm3
 
 unregistersymbol(infDash)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+174FDCA
 
@@ -790,41 +709,26 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-03-30
+  Date   : 2021-05-25
   Author : Paradox
-
-  Infinite Bood Punch Script
+  Description: Infinite Bood Punch Script
 }
 
 [ENABLE]
-
-aobscanmodule(infBloodpunch,DOOMEternalx64vk.exe,75 14 F3 0F 10 87 38 01 00 00) // should be unique
-alloc(newmem,$1000,infBloodpunch)
-
-label(code)
-label(return)
-
-newmem:
-
-code:
-  jmp DOOMEternalx64vk.exe+1AD599F
-  movss xmm0,[rdi+00000138]
-  jmp return
-
-infBloodpunch:
-  jmp newmem
-  nop 5
-return:
+define(infBloodpunch,DOOMEternalx64vk.exe+1AD5989)
+assert(infBloodpunch,75 14)
 registersymbol(infBloodpunch)
 
-[DISABLE]
-
 infBloodpunch:
-  db 75 14 F3 0F 10 87 38 01 00 00
+  db EB 14 // jmp DOOMEternalx64vk.exe+1AD599F
+
+[DISABLE]
+infBloodpunch:
+  db 75 14 // jne DOOMEternalx64vk.exe+1AD599F
 
 unregistersymbol(infBloodpunch)
-dealloc(newmem)
 
+//Release
 {
 // ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1AD5989
 
@@ -3895,6 +3799,231 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Element Offset="4048" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000FD0" DisplayMethod="Unsigned Integer"/>
         <Element Offset="4064" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000FE0" DisplayMethod="Hexadecimal"/>
         <Element Offset="4068" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="00000FE4" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000000" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="8" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000008" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="20" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000014" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000020" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="44" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="0000002C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="52" Vartype="Double" Bytesize="8" OffsetHex="00000034" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="60" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="0000003C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="104" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000068" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="112" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000070" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="128" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000080" DisplayMethod="Hexadecimal"/>
+        <Element Offset="132" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000084" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="136" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000088" DisplayMethod="Hexadecimal"/>
+        <Element Offset="140" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000008C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="144" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000090" DisplayMethod="Hexadecimal"/>
+        <Element Offset="152" Vartype="Pointer" Bytesize="8" OffsetHex="00000098" Description="Pointer to instance of idPlayer" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="160" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="000000A0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="176" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000B0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="180" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="000000B4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="200" Vartype="Pointer" Bytesize="8" OffsetHex="000000C8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="208" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000000D0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="216" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000D8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="220" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000DC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="224" Vartype="Pointer" Bytesize="8" OffsetHex="000000E0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="232" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000000E8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="240" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000F0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="244" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000F4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="248" Vartype="Pointer" Bytesize="8" OffsetHex="000000F8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="256" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000100" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="264" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000108" DisplayMethod="Hexadecimal"/>
+        <Element Offset="268" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="0000010C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="288" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000120" DisplayMethod="Hexadecimal"/>
+        <Element Offset="292" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000124" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="296" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000128" DisplayMethod="Hexadecimal"/>
+        <Element Offset="304" Vartype="Pointer" Bytesize="8" OffsetHex="00000130" Description="Pointer to instance of idPlayer" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="312" Vartype="Pointer" Bytesize="8" RLECount="3" OffsetHex="00000138" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="336" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000150" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="344" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000158" DisplayMethod="Hexadecimal"/>
+        <Element Offset="348" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000015C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="352" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000160" DisplayMethod="Hexadecimal"/>
+        <Element Offset="360" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000168" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="384" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000180" DisplayMethod="Hexadecimal"/>
+        <Element Offset="392" Vartype="4 Bytes" Bytesize="4" RLECount="12" OffsetHex="00000188" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="440" Vartype="Pointer" Bytesize="8" OffsetHex="000001B8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="448" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="000001C0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="468" Vartype="Double" Bytesize="8" OffsetHex="000001D4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="476" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="000001DC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="488" Vartype="4 Bytes" Bytesize="4" RLECount="12" OffsetHex="000001E8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="536" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000218" DisplayMethod="Hexadecimal"/>
+        <Element Offset="540" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="0000021C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="560" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000230" DisplayMethod="Hexadecimal"/>
+        <Element Offset="564" Vartype="Double" Bytesize="8" OffsetHex="00000234" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="572" Vartype="Float" Bytesize="4" RLECount="4" OffsetHex="0000023C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="588" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="0000024C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="608" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000260" DisplayMethod="Hexadecimal"/>
+        <Element Offset="612" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="00000264" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="648" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000288" DisplayMethod="Hexadecimal"/>
+        <Element Offset="652" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="0000028C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="688" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002B0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="692" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="000002B4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="744" Vartype="4 Bytes" Bytesize="4" OffsetHex="000002E8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="748" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="000002EC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="764" Vartype="Double" Bytesize="8" OffsetHex="000002FC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="772" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000304" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="784" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000310" DisplayMethod="Hexadecimal"/>
+        <Element Offset="788" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000314" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="828" Vartype="Double" Bytesize="8" OffsetHex="0000033C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="836" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000344" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="868" Vartype="Double" Bytesize="8" OffsetHex="00000364" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="876" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000036C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="880" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000370" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="896" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000380" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="900" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000384" DisplayMethod="Hexadecimal"/>
+        <Element Offset="904" Vartype="String" Bytesize="8" OffsetHex="00000388" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="912" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="00000390" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="956" Vartype="Double" Bytesize="8" OffsetHex="000003BC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="964" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="000003C4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="984" Vartype="Pointer" Bytesize="8" OffsetHex="000003D8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="992" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003E0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="996" Vartype="Double" Bytesize="8" OffsetHex="000003E4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1004" Vartype="4 Bytes" Bytesize="4" OffsetHex="000003EC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1008" Vartype="Double" Bytesize="8" OffsetHex="000003F0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1016" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="000003F8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1028" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000404" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1032" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000408" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1072" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000430" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1076" Vartype="Double" Bytesize="8" OffsetHex="00000434" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1084" Vartype="Float" Bytesize="4" RLECount="5" OffsetHex="0000043C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1104" Vartype="Double" Bytesize="8" OffsetHex="00000450" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1112" Vartype="4 Bytes" Bytesize="4" RLECount="24" OffsetHex="00000458" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1208" Vartype="Double" Bytesize="8" OffsetHex="000004B8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1216" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="000004C0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1256" Vartype="4 Bytes" Bytesize="4" OffsetHex="000004E8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1260" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="000004EC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1288" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000508" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1292" Vartype="4 Bytes" Bytesize="4" RLECount="7" OffsetHex="0000050C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1320" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000528" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1324" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="0000052C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1376" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000560" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1380" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000564" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1392" Vartype="Double" Bytesize="8" OffsetHex="00000570" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1400" Vartype="4 Bytes" Bytesize="4" RLECount="18" OffsetHex="00000578" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1472" Vartype="4 Bytes" Bytesize="4" OffsetHex="000005C0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1476" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="000005C4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1484" Vartype="Double" Bytesize="8" OffsetHex="000005CC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1492" Vartype="Float" Bytesize="4" OffsetHex="000005D4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1496" Vartype="Double" Bytesize="8" OffsetHex="000005D8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1504" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="000005E0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1528" Vartype="4 Bytes" Bytesize="4" OffsetHex="000005F8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1532" Vartype="Double" Bytesize="8" OffsetHex="000005FC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1540" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000604" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1560" Vartype="Double" Bytesize="8" OffsetHex="00000618" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1568" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000620" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1580" Vartype="Double" Bytesize="8" OffsetHex="0000062C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1588" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000634" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1600" Vartype="Double" Bytesize="8" OffsetHex="00000640" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1608" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000648" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1628" Vartype="Double" Bytesize="8" OffsetHex="0000065C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1636" Vartype="4 Bytes" Bytesize="4" RLECount="27" OffsetHex="00000664" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1744" Vartype="4 Bytes" Bytesize="4" OffsetHex="000006D0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1748" Vartype="4 Bytes" Bytesize="4" RLECount="18" OffsetHex="000006D4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1820" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000071C" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1824" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000720" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1848" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000738" DisplayMethod="Hexadecimal"/>
+        <Element Offset="1852" Vartype="4 Bytes" Bytesize="4" RLECount="27" OffsetHex="0000073C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1960" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="000007A8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="1968" Vartype="4 Bytes" Bytesize="4" RLECount="26" OffsetHex="000007B0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2072" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000818" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2080" Vartype="4 Bytes" Bytesize="4" RLECount="26" OffsetHex="00000820" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2184" Vartype="Float" Bytesize="4" RLECount="2" OffsetHex="00000888" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2192" Vartype="4 Bytes" Bytesize="4" RLECount="25" OffsetHex="00000890" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2292" Vartype="Double" Bytesize="8" OffsetHex="000008F4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2300" Vartype="Float" Bytesize="4" OffsetHex="000008FC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2304" Vartype="4 Bytes" Bytesize="4" RLECount="25" OffsetHex="00000900" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2404" Vartype="Double" Bytesize="8" OffsetHex="00000964" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2412" Vartype="Float" Bytesize="4" OffsetHex="0000096C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2416" Vartype="4 Bytes" Bytesize="4" RLECount="25" OffsetHex="00000970" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2516" Vartype="Double" Bytesize="8" OffsetHex="000009D4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2524" Vartype="Float" Bytesize="4" OffsetHex="000009DC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2528" Vartype="4 Bytes" Bytesize="4" RLECount="25" OffsetHex="000009E0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2628" Vartype="Double" Bytesize="8" OffsetHex="00000A44" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2636" Vartype="Float" Bytesize="4" OffsetHex="00000A4C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2640" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000A50" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2664" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000A68" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2668" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000A6C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2688" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000A80" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2692" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="00000A84" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2736" Vartype="Double" Bytesize="8" OffsetHex="00000AB0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2744" Vartype="4 Bytes" Bytesize="4" RLECount="36" OffsetHex="00000AB8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2888" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000B48" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2892" Vartype="4 Bytes" Bytesize="4" RLECount="17" OffsetHex="00000B4C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="2960" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000B90" DisplayMethod="Hexadecimal"/>
+        <Element Offset="2964" Vartype="4 Bytes" Bytesize="4" RLECount="15" OffsetHex="00000B94" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3024" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000BD0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3028" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000BD4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3032" Vartype="Pointer" Bytesize="8" OffsetHex="00000BD8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3040" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000BE0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3056" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000BF0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3060" Vartype="4 Bytes" Bytesize="4" RLECount="23" OffsetHex="00000BF4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3152" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000C50" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3156" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000C54" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3164" Vartype="Double" Bytesize="8" OffsetHex="00000C5C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3172" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000C64" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3184" Vartype="4 Bytes" Bytesize="4" RLECount="18" OffsetHex="00000C70" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3256" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000CB8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3260" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000CBC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3268" Vartype="Double" Bytesize="8" OffsetHex="00000CC4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3276" Vartype="Float" Bytesize="4" OffsetHex="00000CCC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3280" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000CD0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3296" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000CE0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3300" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="00000CE4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3344" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000D10" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3348" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000D14" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3368" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000D28" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3372" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000D2C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3384" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D38" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3392" Vartype="4 Bytes" Bytesize="4" RLECount="6" OffsetHex="00000D40" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3416" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000D58" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3424" Vartype="4 Bytes" Bytesize="4" RLECount="12" OffsetHex="00000D60" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3472" Vartype="Pointer" Bytesize="8" OffsetHex="00000D90" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3480" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000D98" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3500" Vartype="Double" Bytesize="8" OffsetHex="00000DAC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3508" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000DB4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3520" Vartype="4 Bytes" Bytesize="4" RLECount="12" OffsetHex="00000DC0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3568" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000DF0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3572" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000DF4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3592" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E08" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3596" Vartype="Double" Bytesize="8" OffsetHex="00000E0C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3604" Vartype="Float" Bytesize="4" RLECount="4" OffsetHex="00000E14" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3620" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000E24" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3640" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E38" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3644" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="00000E3C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3680" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E60" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3684" Vartype="4 Bytes" Bytesize="4" RLECount="9" OffsetHex="00000E64" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3720" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000E88" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3724" Vartype="4 Bytes" Bytesize="4" RLECount="13" OffsetHex="00000E8C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3776" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000EC0" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3780" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000EC4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3796" Vartype="Double" Bytesize="8" OffsetHex="00000ED4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3804" Vartype="4 Bytes" Bytesize="4" RLECount="3" OffsetHex="00000EDC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3816" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000EE8" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3820" Vartype="4 Bytes" Bytesize="4" RLECount="10" OffsetHex="00000EEC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3860" Vartype="Double" Bytesize="8" OffsetHex="00000F14" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3868" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000F1C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3900" Vartype="Double" Bytesize="8" OffsetHex="00000F3C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3908" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000F44" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3912" Vartype="Pointer" Bytesize="8" RLECount="2" OffsetHex="00000F48" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3928" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000F58" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3932" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000F5C" DisplayMethod="Hexadecimal"/>
+        <Element Offset="3936" Vartype="String" Bytesize="8" OffsetHex="00000F60" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3944" Vartype="4 Bytes" Bytesize="4" RLECount="11" OffsetHex="00000F68" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3988" Vartype="Double" Bytesize="8" OffsetHex="00000F94" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="3996" Vartype="4 Bytes" Bytesize="4" RLECount="5" OffsetHex="00000F9C" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4016" Vartype="Pointer" Bytesize="8" OffsetHex="00000FB0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4024" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000FB8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4028" Vartype="Double" Bytesize="8" OffsetHex="00000FBC" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4036" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000FC4" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4040" Vartype="Double" Bytesize="8" OffsetHex="00000FC8" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4048" Vartype="Float" Bytesize="4" RLECount="3" OffsetHex="00000FD0" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="4060" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000FDC" DisplayMethod="Hexadecimal"/>
+        <Element Offset="4064" Vartype="4 Bytes" Bytesize="4" RLECount="8" OffsetHex="00000FE0" DisplayMethod="Unsigned Integer"/>
       </Elements>
     </Structure>
     <Structure Name="unnamed structure" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
