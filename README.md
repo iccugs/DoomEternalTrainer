@@ -1,7 +1,7 @@
 # DoomEternal-Trainer
 Just some cheats that I made for Doom Eternal for the latest DLC (Ancient Gods Part 2 Update 6).
 <br>
-As of right now, only infinite health, armor, and ammo work.  This is a major work in progress since the last update.
+As of right now, only infinite health, armor, ammo, radiation and oxygen suit, hammer, and sword  work.  This is a major work in progress since the last update.
 <br>
 The CT file is the cheat engine table that I made using a pointer address for the health value and some AutoAssembly scripts for everything else.
 <br>
