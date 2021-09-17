@@ -60,7 +60,7 @@ int main()
 	while (GetExitCodeProcess(hProcess, &dwExit) && dwExit == STILL_ACTIVE)
 	{
 
-		playerPtr = moduleBase + 0x069E5550;
+		playerPtr = moduleBase + 0x069E7AD0;
 		healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0x74 });
 		armorAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0xD4 });
 
@@ -114,13 +114,13 @@ int main()
 			bAmmo = !bAmmo;
 			if (bAmmo)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C18A60), (BYTE*)"\x8B\x7B\x40", 3, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1C19051), (BYTE*)"\x01\x7B\x40", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C18A60), (BYTE*)"\x03\x7B\x40", 3, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1C19051), (BYTE*)"\x89\x7B\x40", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}
