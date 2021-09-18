@@ -19,8 +19,8 @@ void Menu()
 	std::cout << "NUM1 = Infinite Armor = " << bArmor << "\n";
 	std::cout << "NUM2 = Infinite Rad/O2 = " << bRadO2 << "\n";
 	std::cout << "NUM3 = Infinite Ammo = " << bAmmo << "\n";
-	std::cout << "NUM4 = Infinite Sword = " << bSword << "\n";
-	std::cout << "NUM5 = Infinite Hammer = " << bHammer << "\n";
+	//std::cout << "NUM4 = Infinite Sword = " << bSword << "\n";
+	//std::cout << "NUM5 = Infinite Hammer = " << bHammer << "\n";
 	//std::cout << "NUM6 = Infinite Grenades = " << bGrenades << "\n";
 	//std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
 	//std::cout << "NUM8 = Infinite Dash = " << bDash << "\n";
@@ -93,17 +93,17 @@ int main()
 			bRadO2 = !bRadO2;
 			if (bRadO2)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x182B36A), 5, hProcess);
-				mem::NopEx((BYTE*)(moduleBase + 0x14CFBA6), 8, hProcess);
-				mem::NopEx((BYTE*)(moduleBase + 0x14CF9DA), 8, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x182B65A), 5, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x14CFE86), 8, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x14CFD06), 8, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x182B36A), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
-				mem::PatchEx((BYTE*)(moduleBase + 0x14CFBA6), (BYTE*)"\xF3\x0F\x11\x9A\xD0\x04\x00\x00", 8, hProcess);
-				mem::PatchEx((BYTE*)(moduleBase + 0x14CF9DA), (BYTE*)"\xF3\x0F\x10\x92\xB8\x06\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x182B65A), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x14CFE86), (BYTE*)"\xF3\x0F\x11\x9A\xD0\x04\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x14CFD06), (BYTE*)"\xF3\x0F\x10\x92\xB8\x06\x00\x00", 8, hProcess);
 				ClearScreen();
 				Menu();
 			}

@@ -21,7 +21,7 @@ void AsciiArt()
 	std::cout<<"  |    |    |  | \\/ / __ \\_|  ||   |  \\\\  ___/  |  | \\/\n";
 	std::cout<<"  |____|    |__|   (____  /|__||___|  / \\___  > |__|\n";
 	std::cout<<"                        \\/          \\/      \\/\n\n";
-	std::cout<<"                  Ancient Gods Part 2 Update 6\n";
+	std::cout<<"                  Ancient Gods Part 2 Update 6.4\n";
 	std::cout<<"                                      By: Paradox\n\n";
 	std::cout << "press enter to continue...\n";
 }
