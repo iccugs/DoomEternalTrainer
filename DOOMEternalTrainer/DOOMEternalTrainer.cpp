@@ -9,7 +9,7 @@
 #include "ascii.h"
 
 bool bHealth = false, bArmor = false, bRadO2 = false, bAmmo = false, bSword = false;
-bool bHammer = false/*, bChain = false bGrenades = false, bFlame = false, bDash = false, bPunch = false */;
+bool bHammer = false/* bGrenades = false, bFlame = false, bDash = false, bPunch = false */;
 
 void Menu()
 {
@@ -20,12 +20,11 @@ void Menu()
 	std::cout << "NUM2 = Infinite Rad/O2 = " << bRadO2 << "\n";
 	std::cout << "NUM3 = Infinite Ammo = " << bAmmo << "\n";
 	std::cout << "NUM4 = Infinite Sword = " << bSword << "\n";
-	std::cout << "NUM5 = Infinite Hammer = " << bHammer << "\n";
-	//std::cout << "NUM6 = Infinite Chainsaw = " << bChain << "\n";
-	//std::cout << "NUM7 = Infinite Grenades = " << bGrenades << "\n";
-	//std::cout << "NUM8 = Infinite Flamethrower = " << bFlame << "\n";
-	//std::cout << "NUM9 = Infinite Dash = " << bDash << "\n";
-	//std::cout << "NUM? = Infinite Blood Punch = " << bPunch << "\n\n";
+	std::cout << "NUM5 = Infinite Hammer/Chainsaw = " << bHammer << "\n";
+	//std::cout << "NUM6 = Infinite Grenades = " << bGrenades << "\n";
+	//std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
+	//std::cout << "NUM8 = Infinite Dash = " << bDash << "\n";
+	//std::cout << "NUM9 = Infinite Blood Punch = " << bPunch << "\n\n";
 	std::cout << "INSERT = EXIT TRAINER\n";
 }
 
@@ -161,24 +160,7 @@ int main()
 			}
 		}
 
-		/*if (GetAsyncKeyState(VK_NUMPAD6) & 1)
-		{
-			bChain = !bChain;
-			if (bChain)
-			{
-				mem::NopEx((BYTE*)(moduleBase + 0x ? ? ? ), ? , hProcess);
-				ClearScreen();
-				Menu();
-			}
-			else
-			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x ? ? ? ), ? , hProcess);
-				ClearScreen();
-				Menu();
-			}
-		}*/
-
-		//if (GetAsyncKeyState(VK_NUMPAD7) & 1)
+		//if (GetAsyncKeyState(VK_NUMPAD6) & 1)
 		//{
 		//	bGrenades = !bGrenades;
 		//	if (bGrenades)
@@ -195,7 +177,7 @@ int main()
 		//	}
 		//}
 
-		//if (GetAsyncKeyState(VK_NUMPAD8) & 1)
+		//if (GetAsyncKeyState(VK_NUMPAD7) & 1)
 		//{
 		//	bFlame = !bFlame;
 		//	if (bFlame)
@@ -212,7 +194,7 @@ int main()
 		//	}
 		//}
 
-		//if (GetAsyncKeyState(VK_NUMPAD9) & 1)
+		//if (GetAsyncKeyState(VK_NUMPAD8) & 1)
 		//{
 		//	bDash = !bDash;
 		//	if (bDash)
@@ -229,7 +211,7 @@ int main()
 		//	}
 		//}
 
-		//if (GetAsyncKeyState(VK_???) & 1)
+		//if (GetAsyncKeyState(VK_NUMPAD9) & 1)
 		//{
 		//	bPunch = !bPunch;
 		//	if (bPunch)

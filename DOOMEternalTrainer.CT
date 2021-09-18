@@ -767,14 +767,14 @@ DOOMEternalx64vk.exe+1750079: CC              - int 3
     </CheatEntry>
     <CheatEntry>
       <ID>24</ID>
-      <Description>"Infinite Hammer"</Description>
+      <Description>"Infinite Hammer/Chainsaw"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
   Date   : 2021-07-09
   Author : Paradox
-  Description: Infinite Hammer Script
+  Description: Infinite Hammer/Chainsaw Script
 }
 
 [ENABLE]
@@ -1827,7 +1827,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>60</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of movss [rdx+000006B8],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+14CFD06</AddressString>
       <Before>
@@ -1855,7 +1855,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>70</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of movss [rbx+08],xmm1</Description>
       <AddressString>DOOMEternalx64vk.exe+182B890</AddressString>
       <Before>
@@ -1880,7 +1880,7 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
         <Byte>28</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry Color="20000000">
       <Description>Change of mov [rax+0002671C],r13d</Description>
       <AddressString>DOOMEternalx64vk.exe+1C0D5B9</AddressString>
       <Before>

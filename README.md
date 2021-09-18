@@ -2,7 +2,7 @@
 Doom Eternal c++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.4).
 <br>
 <br>
-As of right now, only infinite health, armor, ammo, radiation and oxygen suit, hammer, and sword  work.  This is a major work in progress since the last update.
+As of right now, only infinite health, armor, ammo, radiation and oxygen suit, hammer and chainsaw, and sword  work.  This is a major work in progress since the last update.
 <br>
 <br>
 The CT file is the cheat engine table that I made using a pointer address for the health value and some AutoAssembly scripts for everything else.
