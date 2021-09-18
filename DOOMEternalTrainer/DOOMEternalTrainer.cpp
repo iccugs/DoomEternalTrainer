@@ -148,7 +148,7 @@ int main()
 			bHammer = !bHammer;
 			if (bHammer)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x1C0D5B9), 7, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1C0D5B9), (BYTE*)"\x44\x01\xA8\x1C\x67\x02\x00", 7, hProcess);
 				ClearScreen();
 				Menu();
 			}

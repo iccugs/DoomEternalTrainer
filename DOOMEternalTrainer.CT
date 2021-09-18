@@ -221,6 +221,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
+          <LastState Value="999" RealAddress="27D68076F0C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -233,6 +234,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
+          <LastState Value="999" RealAddress="27D68076F6C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -783,7 +785,7 @@ assert(infHammer,44 89 A8 1C 67 02 00)
 registersymbol(infHammer)
 
 infHammer:
-  db 90 90 90 90 90 90 90 // NOP array
+  db 44 01 A8 1C 67 02 00 // add [rax+0002671C],r13d
 
 [DISABLE]
 infHammer:
