@@ -1,5 +1,5 @@
 # DoomEternal-Trainer
-Just some cheats that I made for Doom Eternal for the latest DLC (Ancient Gods Part 2 Update 6).
+Doom Eternal c++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.4).
 <br>
 <br>
 As of right now, only infinite health, armor, ammo, radiation and oxygen suit, hammer, and sword  work.  This is a major work in progress since the last update.
@@ -23,13 +23,10 @@ NOTES:
 You can only pick one or the other because of the addresses they modify.
 <br>
 <br>
-2. Because of the way that I coded the infinite ammo hack, you can only use the unmaker in short bursts otherwise you will crash the game if you spam it for an extended period of time.
-<br>
-<br>
 Screenshots:
 
 <p align="center">
-  <img src="./screenshots/1.JPG" />
+  <img src="./screenshots/1.PNG" />
 </p>
 <br>
 <p align="center">
