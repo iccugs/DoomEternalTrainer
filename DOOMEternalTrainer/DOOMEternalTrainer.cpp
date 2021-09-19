@@ -9,7 +9,7 @@
 #include "ascii.h"
 
 bool bHealth = false, bArmor = false, bRadO2 = false, bAmmo = false, bSword = false;
-bool bHammer = false/* bGrenades = false, bFlame = false, bDash = false, bPunch = false */;
+bool bHammer = false/* bGrenades = false, bFlame = false, bDash = false */, bPunch = false;
 
 void Menu()
 {
@@ -24,7 +24,7 @@ void Menu()
 	//std::cout << "NUM6 = Infinite Grenades = " << bGrenades << "\n";
 	//std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
 	//std::cout << "NUM8 = Infinite Dash = " << bDash << "\n";
-	//std::cout << "NUM9 = Infinite Blood Punch = " << bPunch << "\n\n";
+	std::cout << "NUM9 = Infinite Blood Punch = " << bPunch << "\n\n";
 	std::cout << "INSERT = EXIT TRAINER\n";
 }
 
@@ -211,22 +211,22 @@ int main()
 		//	}
 		//}
 
-		//if (GetAsyncKeyState(VK_NUMPAD9) & 1)
-		//{
-		//	bPunch = !bPunch;
-		//	if (bPunch)
-		//	{
-		//		mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\xEB\x14", 2, hProcess);
-		//		ClearScreen();
-		//		Menu();
-		//	}
-		//	else
-		//	{
-		//		mem::PatchEx((BYTE*)(moduleBase + 0x1AD5989), (BYTE*)"\x75\x14", 2, hProcess);
-		//		ClearScreen();
-		//		Menu();
-		//	}
-		//}
+		if (GetAsyncKeyState(VK_NUMPAD9) & 1)
+		{
+			bPunch = !bPunch;
+			if (bPunch)
+			{
+				mem::PatchEx((BYTE*)(moduleBase + 0x1BCDE24), (BYTE*)"\xEB\x14", 2, hProcess);
+				ClearScreen();
+				Menu();
+			}
+			else
+			{
+				mem::PatchEx((BYTE*)(moduleBase + 0x1BCDE24), (BYTE*)"\x75\x14", 2, hProcess);
+				ClearScreen();
+				Menu();
+			}
+		}
 
 		if (GetAsyncKeyState(VK_INSERT) & 1)
 		{
