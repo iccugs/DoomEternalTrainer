@@ -221,7 +221,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
-          <LastState Value="185" RealAddress="1F513C82F1C"/>
+          <LastState Value="185" RealAddress="23112CD2EFC"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -234,7 +234,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
-          <LastState Value="150" RealAddress="1F513C82F7C"/>
+          <LastState Value="150" RealAddress="23112CD2F5C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -1052,26 +1052,19 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
-      <ID>82</ID>
-      <Description>"Currently not working"</Description>
-      <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
-      <LastState Value="" RealAddress="00000000"/>
-      <GroupHeader>1</GroupHeader>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>27</ID>
-          <Description>"Infinite Grenades"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Doom Eternal
+      <ID>27</ID>
+      <Description>"Infinite Grenades"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-05-25
+  Date   : 2021-09-20
   Author : Paradox
   Description: Infinite Grenade Script
 }
 
 [ENABLE]
-define(infGrenades,DOOMEternalx64vk.exe+9FE4003)
+define(infGrenades,DOOMEternalx64vk.exe+1C912702)
 assert(infGrenades,75 0F)
 registersymbol(infGrenades)
 
@@ -1083,6 +1076,35 @@ infGrenades:
   db 75 0F // jne DOOMEternalx64vk.exe+9FE4014
 
 unregistersymbol(infGrenades)
+
+//Update 1 - 2021-09-20
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1C912702
+
+DOOMEternalx64vk.exe+1C9126D3: 0F B6 D8              - movzx ebx,al
+DOOMEternalx64vk.exe+1C9126D6: 48 8B 8F B0 F1 02 00  - mov rcx,[rdi+0002F1B0]
+DOOMEternalx64vk.exe+1C9126DD: E8 AE 52 CA E4        - call DOOMEternalx64vk.exe+15B7990
+DOOMEternalx64vk.exe+1C9126E2: 4C 63 F0              - movsxd  r14,eax
+DOOMEternalx64vk.exe+1C9126E5: 4C 39 FE              - cmp rsi,r15
+DOOMEternalx64vk.exe+1C9126E8: 0F 84 A8 00 00 00     - je DOOMEternalx64vk.exe+1C912796
+DOOMEternalx64vk.exe+1C9126EE: 4C 39 E6              - cmp rsi,r12
+DOOMEternalx64vk.exe+1C9126F1: 0F 84 9F 00 00 00     - je DOOMEternalx64vk.exe+1C912796
+DOOMEternalx64vk.exe+1C9126F7: 48 8B 0D 22 4B 10 EA  - mov rcx,[DOOMEternalx64vk.exe+6A17220]
+DOOMEternalx64vk.exe+1C9126FE: 83 79 08 00           - cmp dword ptr [rcx+08],00
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+1C912702: 75 0F                 - jne DOOMEternalx64vk.exe+1C912713
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+1C912704: 84 DB                 - test bl,bl
+DOOMEternalx64vk.exe+1C912706: 75 0B                 - jne DOOMEternalx64vk.exe+1C912713
+DOOMEternalx64vk.exe+1C912708: 4B 8D 04 B6           - lea rax,[r14+r14*4]
+DOOMEternalx64vk.exe+1C91270C: FF 8C C7 50 6F 00 00  - dec [rdi+rax*8+00006F50]
+DOOMEternalx64vk.exe+1C912713: 48 8B 0D 4E 78 05 EA  - mov rcx,[DOOMEternalx64vk.exe+6969F68]
+DOOMEternalx64vk.exe+1C91271A: 48 8D 55 BF           - lea rdx,[rbp-41]
+DOOMEternalx64vk.exe+1C91271E: 48 81 C1 30 5A 12 00  - add rcx,00125A30
+DOOMEternalx64vk.exe+1C912725: 41 B8 01 00 00 00     - mov r8d,00000001
+DOOMEternalx64vk.exe+1C91272B: E8 20 7F 38 E4        - call DOOMEternalx64vk.exe+C9A650
+DOOMEternalx64vk.exe+1C912730: 48 8B 87 B0 F1 02 00  - mov rax,[rdi+0002F1B0]
+}
 
 //Release
 {
@@ -1113,7 +1135,14 @@ DOOMEternalx64vk.exe+9FE402C: E8 7F D8 C3 F6        - call DOOMEternalx64vk.exe+
 DOOMEternalx64vk.exe+9FE4031: 48 8B 87 E8 F0 02 00  - mov rax,[rdi+0002F0E8]
 }
 </AssemblerScript>
-        </CheatEntry>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>82</ID>
+      <Description>"Currently not working"</Description>
+      <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
         <CheatEntry>
           <ID>30</ID>
           <Description>"Infinite Flamethrower"</Description>
