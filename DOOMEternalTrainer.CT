@@ -1065,17 +1065,46 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
 
 [ENABLE]
 define(infGrenades,DOOMEternalx64vk.exe+1C912702)
-assert(infGrenades,75 0F)
+assert(infGrenades,FF 8C C7 50 6F 00 00)
 registersymbol(infGrenades)
 
 infGrenades:
-  db EB 0F // jmp DOOMEternalx64vk.exe+9FE4014
+  db FF 84 C7 50 6F 00 00 // inc [rdi+rax*8+00006F50]
 
 [DISABLE]
 infGrenades:
-  db 75 0F // jne DOOMEternalx64vk.exe+9FE4014
+  db FF 8C C7 50 6F 00 00 // dec [rdi+rax*8+00006F50]
 
 unregistersymbol(infGrenades)
+
+//Update 2 - 2021-09-20
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1C91270C
+
+DOOMEternalx64vk.exe+1C9126E5: 4C 39 FE              - cmp rsi,r15
+DOOMEternalx64vk.exe+1C9126E8: 0F 84 A8 00 00 00     - je DOOMEternalx64vk.exe+1C912796
+DOOMEternalx64vk.exe+1C9126EE: 4C 39 E6              - cmp rsi,r12
+DOOMEternalx64vk.exe+1C9126F1: 0F 84 9F 00 00 00     - je DOOMEternalx64vk.exe+1C912796
+DOOMEternalx64vk.exe+1C9126F7: 48 8B 0D 22 4B 10 EA  - mov rcx,[DOOMEternalx64vk.exe+6A17220]
+DOOMEternalx64vk.exe+1C9126FE: 83 79 08 00           - cmp dword ptr [rcx+08],00
+DOOMEternalx64vk.exe+1C912702: 75 0F                 - jne DOOMEternalx64vk.exe+1C912713
+DOOMEternalx64vk.exe+1C912704: 84 DB                 - test bl,bl
+DOOMEternalx64vk.exe+1C912706: 75 0B                 - jne DOOMEternalx64vk.exe+1C912713
+DOOMEternalx64vk.exe+1C912708: 4B 8D 04 B6           - lea rax,[r14+r14*4]
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+1C91270C: FF 8C C7 50 6F 00 00  - dec [rdi+rax*8+00006F50]
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+1C912713: 48 8B 0D 4E 78 05 EA  - mov rcx,[DOOMEternalx64vk.exe+6969F68]
+DOOMEternalx64vk.exe+1C91271A: 48 8D 55 BF           - lea rdx,[rbp-41]
+DOOMEternalx64vk.exe+1C91271E: 48 81 C1 30 5A 12 00  - add rcx,00125A30
+DOOMEternalx64vk.exe+1C912725: 41 B8 01 00 00 00     - mov r8d,00000001
+DOOMEternalx64vk.exe+1C91272B: E8 20 7F 38 E4        - call DOOMEternalx64vk.exe+C9A650
+DOOMEternalx64vk.exe+1C912730: 48 8B 87 B0 F1 02 00  - mov rax,[rdi+0002F1B0]
+DOOMEternalx64vk.exe+1C912737: 48 8D 4D CF           - lea rcx,[rbp-31]
+DOOMEternalx64vk.exe+1C91273B: 8B 90 74 08 00 00     - mov edx,[rax+00000874]
+DOOMEternalx64vk.exe+1C912741: E8 3A E8 B9 E3        - call DOOMEternalx64vk.exe+4B0F80
+DOOMEternalx64vk.exe+1C912746: 48 8B 55 BF           - mov rdx,[rbp-41]
+}
 
 //Update 1 - 2021-09-20
 {
