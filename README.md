@@ -15,10 +15,7 @@ If you don't want to go through the trouble of compiling everything from source,
 <br>
 NOTES:
 <br>
-1. On the cheat engine table, you will see two auto-assembly scripts under "Health/Ammo."
-<br>
-You can only pick one or the other because of the addresses they modify.
-<br>
+1. On the cheat engine table, you will see two auto-assembly scripts under "Health/Ammo." You can only pick one or the other because of the addresses they modify.
 <br>
 2. The grenade and flamethrower hacks work by changing the assembly opcodes from "dec" to "inc". This means that when you untoggle them, you may have to burn through extra grenades or flamethrower attacks to bring it back to normal.
 <br>
