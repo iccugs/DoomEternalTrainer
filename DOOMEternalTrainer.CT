@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="34">
+<CheatTable CheatEngineTableVersion="38">
   <CheatEntries>
     <CheatEntry>
       <ID>74</ID>
@@ -221,7 +221,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
-          <LastState Value="999" RealAddress="27D3BBEEF0C"/>
+          <LastState Value="185" RealAddress="1F513C82F1C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -234,7 +234,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
-          <LastState Value="806.7396851" RealAddress="27D3BBEEF6C"/>
+          <LastState Value="150" RealAddress="1F513C82F7C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -967,6 +967,91 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
 </AssemblerScript>
     </CheatEntry>
     <CheatEntry>
+      <ID>32</ID>
+      <Description>"Infinite Dash"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : Doom Eternal
+  Version: 
+  Date   : 2021-09-19
+  Author : Paradox
+  Description: Infinite Dash Script
+}
+
+[ENABLE]
+define(infDash,DOOMEternalx64vk.exe+182B5EB)
+assert(infDash,F3 0F 11 4F 08)
+registersymbol(infDash)
+
+infDash:
+  db 90 90 90 90 90 // NOP array
+
+[DISABLE]
+infDash:
+  db F3 0F 11 4F 08 // movss [rdi+08],xmm1
+
+unregistersymbol(infDash)
+
+//Update 1 - 2021-09-19
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+182B5EB
+
+DOOMEternalx64vk.exe+182B5C7: 48 8B 07        - mov rax,[rdi]
+DOOMEternalx64vk.exe+182B5CA: F3 0F 5C F7     - subss xmm6,xmm7
+DOOMEternalx64vk.exe+182B5CE: 0F 57 D2        - xorps xmm2,xmm2
+DOOMEternalx64vk.exe+182B5D1: 48 8B CF        - mov rcx,rdi
+DOOMEternalx64vk.exe+182B5D4: F3 0F 10 D0     - movss xmm2,xmm0
+DOOMEternalx64vk.exe+182B5D8: 0F 57 C0        - xorps xmm0,xmm0
+DOOMEternalx64vk.exe+182B5DB: 0F 28 CE        - movaps xmm1,xmm6
+DOOMEternalx64vk.exe+182B5DE: F3 0F 5D CA     - minss xmm1,xmm2
+DOOMEternalx64vk.exe+182B5E2: F3 0F 10 57 0C  - movss xmm2,[rdi+0C]
+DOOMEternalx64vk.exe+182B5E7: F3 0F 5F C8     - maxss xmm1,xmm0
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+182B5EB: F3 0F 11 4F 08  - movss [rdi+08],xmm1
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+182B5F0: 48 8B 5C 24 50  - mov rbx,[rsp+50]
+DOOMEternalx64vk.exe+182B5F5: 0F 28 74 24 30  - movaps xmm6,[rsp+30]
+DOOMEternalx64vk.exe+182B5FA: 0F 28 7C 24 20  - movaps xmm7,[rsp+20]
+DOOMEternalx64vk.exe+182B5FF: 48 83 C4 40     - add rsp,40
+DOOMEternalx64vk.exe+182B603: 5F              - pop rdi
+DOOMEternalx64vk.exe+182B604: 48 FF 60 48     - jmp qword ptr [rax+48]
+DOOMEternalx64vk.exe+182B608: CC              - int 3
+DOOMEternalx64vk.exe+182B609: CC              - int 3
+DOOMEternalx64vk.exe+182B60A: CC              - int 3
+DOOMEternalx64vk.exe+182B60B: CC              - int 3
+}
+
+//Release
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+174FDCA
+
+DOOMEternalx64vk.exe+174FDA7: 0F 57 D2        - xorps xmm2,xmm2
+DOOMEternalx64vk.exe+174FDAA: F3 0F 10 D0     - movss xmm2,xmm0
+DOOMEternalx64vk.exe+174FDAE: 0F 28 CE        - movaps xmm1,xmm6
+DOOMEternalx64vk.exe+174FDB1: 0F 28 D9        - movaps xmm3,xmm1
+DOOMEternalx64vk.exe+174FDB4: 0F 57 C0        - xorps xmm0,xmm0
+DOOMEternalx64vk.exe+174FDB7: F3 0F 5D DA     - minss xmm3,xmm2
+DOOMEternalx64vk.exe+174FDBB: 48 8B CF        - mov rcx,rdi
+DOOMEternalx64vk.exe+174FDBE: F3 0F 10 57 0C  - movss xmm2,[rdi+0C]
+DOOMEternalx64vk.exe+174FDC3: F3 0F 5F D8     - maxss xmm3,xmm0
+DOOMEternalx64vk.exe+174FDC7: 0F 28 CB        - movaps xmm1,xmm3
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+174FDCA: F3 0F 11 5F 08  - movss [rdi+08],xmm3
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+174FDCF: 48 8B 5C 24 40  - mov rbx,[rsp+40]
+DOOMEternalx64vk.exe+174FDD4: 0F 28 74 24 20  - movaps xmm6,[rsp+20]
+DOOMEternalx64vk.exe+174FDD9: 48 83 C4 30     - add rsp,30
+DOOMEternalx64vk.exe+174FDDD: 5F              - pop rdi
+DOOMEternalx64vk.exe+174FDDE: 48 FF 60 48     - jmp qword ptr [rax+48]
+DOOMEternalx64vk.exe+174FDE2: CC              - int 3 
+DOOMEternalx64vk.exe+174FDE3: CC              - int 3 
+DOOMEternalx64vk.exe+174FDE4: CC              - int 3 
+DOOMEternalx64vk.exe+174FDE5: CC              - int 3 
+DOOMEternalx64vk.exe+174FDE6: CC              - int 3 
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
       <ID>82</ID>
       <Description>"Currently not working"</Description>
       <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
@@ -1085,67 +1170,11 @@ DOOMEternalx64vk.exe+9FE40D1: 48 8D 4D CF                    - lea rcx,[rbp-31]
 }
 </AssemblerScript>
         </CheatEntry>
-        <CheatEntry>
-          <ID>32</ID>
-          <Description>"Infinite Dash"</Description>
-          <LastState/>
-          <VariableType>Auto Assembler Script</VariableType>
-          <AssemblerScript>{ Game   : Doom Eternal
-  Version: 
-  Date   : 2021-05-25
-  Author : Paradox
-  Description: Infinite Dash Script
-}
-
-[ENABLE]
-define(infDash,DOOMEternalx64vk.exe+174FDCA)
-assert(infDash,F3 0F 11 5F 08)
-registersymbol(infDash)
-
-infDash:
-  db 90 90 90 90 90 // NOP array
-
-[DISABLE]
-infDash:
-  db F3 0F 11 5F 08 // movss [rdi+08],xmm3
-
-unregistersymbol(infDash)
-
-//Release
-{
-// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+174FDCA
-
-DOOMEternalx64vk.exe+174FDA7: 0F 57 D2        - xorps xmm2,xmm2
-DOOMEternalx64vk.exe+174FDAA: F3 0F 10 D0     - movss xmm2,xmm0
-DOOMEternalx64vk.exe+174FDAE: 0F 28 CE        - movaps xmm1,xmm6
-DOOMEternalx64vk.exe+174FDB1: 0F 28 D9        - movaps xmm3,xmm1
-DOOMEternalx64vk.exe+174FDB4: 0F 57 C0        - xorps xmm0,xmm0
-DOOMEternalx64vk.exe+174FDB7: F3 0F 5D DA     - minss xmm3,xmm2
-DOOMEternalx64vk.exe+174FDBB: 48 8B CF        - mov rcx,rdi
-DOOMEternalx64vk.exe+174FDBE: F3 0F 10 57 0C  - movss xmm2,[rdi+0C]
-DOOMEternalx64vk.exe+174FDC3: F3 0F 5F D8     - maxss xmm3,xmm0
-DOOMEternalx64vk.exe+174FDC7: 0F 28 CB        - movaps xmm1,xmm3
-// ---------- INJECTING HERE ----------
-DOOMEternalx64vk.exe+174FDCA: F3 0F 11 5F 08  - movss [rdi+08],xmm3
-// ---------- DONE INJECTING  ----------
-DOOMEternalx64vk.exe+174FDCF: 48 8B 5C 24 40  - mov rbx,[rsp+40]
-DOOMEternalx64vk.exe+174FDD4: 0F 28 74 24 20  - movaps xmm6,[rsp+20]
-DOOMEternalx64vk.exe+174FDD9: 48 83 C4 30     - add rsp,30
-DOOMEternalx64vk.exe+174FDDD: 5F              - pop rdi
-DOOMEternalx64vk.exe+174FDDE: 48 FF 60 48     - jmp qword ptr [rax+48]
-DOOMEternalx64vk.exe+174FDE2: CC              - int 3 
-DOOMEternalx64vk.exe+174FDE3: CC              - int 3 
-DOOMEternalx64vk.exe+174FDE4: CC              - int 3 
-DOOMEternalx64vk.exe+174FDE5: CC              - int 3 
-DOOMEternalx64vk.exe+174FDE6: CC              - int 3 
-}
-</AssemblerScript>
-        </CheatEntry>
       </CheatEntries>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rsi+rbx+1C],xmm0</Description>
       <AddressString>DOOMEternalx64vk.exe+CF9242</AddressString>
       <Before>
@@ -1171,7 +1200,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>00</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rbx+40],edi</Description>
       <AddressString>DOOMEternalx64vk.exe+1B1C6A7</AddressString>
       <Before>
@@ -1194,7 +1223,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>CB</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of add [rbx+40],esi</Description>
       <AddressString>DOOMEternalx64vk.exe+1B1C678</AddressString>
       <Before>
@@ -1217,7 +1246,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>84</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+1750062</AddressString>
       <Before>
@@ -1242,7 +1271,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>28</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rax+00026704],r13d</Description>
       <AddressString>DOOMEternalx64vk.exe+1B1188C</AddressString>
       <Before>
@@ -1269,7 +1298,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>0A</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rdi+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+174FDCA</AddressString>
       <Before>
@@ -1294,7 +1323,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>40</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rdx+000004D0],xmm4</Description>
       <AddressString>DOOMEternalx64vk.exe+140D236</AddressString>
       <Before>
@@ -1322,7 +1351,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>70</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+04],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+140C5E9</AddressString>
       <Before>
@@ -1347,7 +1376,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>C0</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+04],xmm4</Description>
       <AddressString>DOOMEternalx64vk.exe+140C5FA</AddressString>
       <Before>
@@ -1372,7 +1401,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>41</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+174FE39</AddressString>
       <Before>
@@ -1397,7 +1426,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>20</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss xmm0,[rcx+08]</Description>
       <AddressString>DOOMEternalx64vk.exe+21A78D0</AddressString>
       <Before>
@@ -1422,7 +1451,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>CC</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss xmm0,[rbx+08]</Description>
       <AddressString>DOOMEternalx64vk.exe+1752951</AddressString>
       <Before>
@@ -1447,7 +1476,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>02</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rdx+000006B8],xmm4</Description>
       <AddressString>DOOMEternalx64vk.exe+140D0A6</AddressString>
       <Before>
@@ -1475,7 +1504,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>70</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rbx+40],edi</Description>
       <AddressString>DOOMEternalx64vk.exe+1C18A63</AddressString>
       <Before>
@@ -1498,7 +1527,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>40</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rbx+40],edi</Description>
       <AddressString>DOOMEternalx64vk.exe+1C18A91</AddressString>
       <Before>
@@ -1521,7 +1550,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>74</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov eax,[rbx+40]</Description>
       <AddressString>DOOMEternalx64vk.exe+1C182CA</AddressString>
       <Before>
@@ -1544,7 +1573,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>5B</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of jmp DOOMEternalx64vk.exe+1C18A60</Description>
       <AddressString>DOOMEternalx64vk.exe+1C18A57</AddressString>
       <Before>
@@ -1566,7 +1595,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>40</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+rsi+1C],xmm0</Description>
       <AddressString>7FF68A3C001B</AddressString>
       <Before>
@@ -1592,7 +1621,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>00</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov edx,[rcx+000001E0]</Description>
       <AddressString>DOOMEternalx64vk.exe+1B7249BB</AddressString>
       <Before>
@@ -1618,7 +1647,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>00</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rcx+000001E0],eax</Description>
       <AddressString>DOOMEternalx64vk.exe+1B7249C1</AddressString>
       <Before>
@@ -1644,7 +1673,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>E5</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov edx,[rbx+000001E0]</Description>
       <AddressString>DOOMEternalx64vk.exe+1591C14</AddressString>
       <Before>
@@ -1670,7 +1699,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>C2</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov eax,[rbx+000001E0]</Description>
       <AddressString>DOOMEternalx64vk.exe+1591C24</AddressString>
       <Before>
@@ -1696,7 +1725,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>85</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss xmm2,[rdx+000006B8]</Description>
       <AddressString>DOOMEternalx64vk.exe+14CF9DA</AddressString>
       <Before>
@@ -1724,7 +1753,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>0F</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+08],xmm1</Description>
       <AddressString>DOOMEternalx64vk.exe+182B5A0</AddressString>
       <Before>
@@ -1749,7 +1778,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>28</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rax+0002671C],r13d</Description>
       <AddressString>DOOMEternalx64vk.exe+1C0CFF9</AddressString>
       <Before>
@@ -1776,7 +1805,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>0A</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rcx+000000B8],edx</Description>
       <AddressString>DOOMEternalx64vk.exe+5173DF</AddressString>
       <Before>
@@ -1802,7 +1831,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>00</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of cmp edx,[rcx+000000B8]</Description>
       <AddressString>DOOMEternalx64vk.exe+5173C6</AddressString>
       <Before>
@@ -1828,7 +1857,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>00</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rbx+000000B8],FFFFFFFF</Description>
       <AddressString>DOOMEternalx64vk.exe+5103E8</AddressString>
       <Before>
@@ -1858,7 +1887,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>60</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rdx+000006B8],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+14CFD06</AddressString>
       <Before>
@@ -1886,7 +1915,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>70</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of movss [rbx+08],xmm1</Description>
       <AddressString>DOOMEternalx64vk.exe+182B890</AddressString>
       <Before>
@@ -1911,7 +1940,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>28</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="20000000">
+    <CodeEntry>
       <Description>Change of mov [rax+0002671C],r13d</Description>
       <AddressString>DOOMEternalx64vk.exe+1C0D5B9</AddressString>
       <Before>
@@ -1938,7 +1967,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>0A</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry>
       <Description>Change of movss [rdi+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+182BB2F</AddressString>
       <Before>
@@ -1963,7 +1992,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>82</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry>
       <Description>Change of movss [rdi+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+182BCE6</AddressString>
       <Before>
@@ -1988,7 +2017,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>89</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry>
       <Description>Change of movss [rdi+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+188074E</AddressString>
       <Before>
@@ -2013,7 +2042,7 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>30</Byte>
       </After>
     </CodeEntry>
-    <CodeEntry Color="80000008">
+    <CodeEntry>
       <Description>Change of movss [rdi+08],xmm3</Description>
       <AddressString>DOOMEternalx64vk.exe+1840E05</AddressString>
       <Before>
@@ -2036,6 +2065,56 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
         <Byte>74</Byte>
         <Byte>04</Byte>
         <Byte>44</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of movss xmm2,[rdi+0C]</Description>
+      <AddressString>DOOMEternalx64vk.exe+182BCDA</AddressString>
+      <Before>
+        <Byte>5D</Byte>
+        <Byte>DA</Byte>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>CF</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>10</Byte>
+        <Byte>57</Byte>
+        <Byte>0C</Byte>
+      </Actual>
+      <After>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>5F</Byte>
+        <Byte>D8</Byte>
+        <Byte>0F</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of movss [rdi+08],xmm1</Description>
+      <AddressString>DOOMEternalx64vk.exe+182B5EB</AddressString>
+      <Before>
+        <Byte>0C</Byte>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>5F</Byte>
+        <Byte>C8</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>4F</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>5C</Byte>
+        <Byte>24</Byte>
+        <Byte>50</Byte>
       </After>
     </CodeEntry>
   </CheatCodes>
