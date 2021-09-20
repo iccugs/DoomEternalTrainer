@@ -22,7 +22,7 @@ void Menu()
 	std::cout << "NUM4 = Infinite Sword = " << bSword << "\n";
 	std::cout << "NUM5 = Infinite Hammer/Chainsaw = " << bHammer << "\n";
 	std::cout << "NUM6 = Infinite Grenades = " << bGrenades << "\n";
-	//std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
+	std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
 	std::cout << "NUM8 = Infinite Dash = " << bDash << "\n";
 	std::cout << "NUM9 = Infinite Blood Punch = " << bPunch << "\n\n";
 	std::cout << "INSERT = EXIT TRAINER\n";
@@ -177,22 +177,22 @@ int main()
 			}
 		}
 
-		//if (GetAsyncKeyState(VK_NUMPAD7) & 1)
-		//{
-		//	bFlame = !bFlame;
-		//	if (bFlame)
-		//	{
-		//		mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\xEB\x0A", 2, hProcess);
-		//		ClearScreen();
-		//		Menu();
-		//	}
-		//	else
-		//	{
-		//		mem::PatchEx((BYTE*)(moduleBase + 0x9FE40A1), (BYTE*)"\x75\x0A", 2, hProcess);
-		//		ClearScreen();
-		//		Menu();
-		//	}
-		//}
+		if (GetAsyncKeyState(VK_NUMPAD7) & 1)
+		{
+			bFlame = !bFlame;
+			if (bFlame)
+			{
+				mem::PatchEx((BYTE*)(moduleBase + 0x1C9127A7), (BYTE*)"\xFF\x87\xA0\x6F\x00\x00", 6, hProcess);
+				ClearScreen();
+				Menu();
+			}
+			else
+			{
+				mem::PatchEx((BYTE*)(moduleBase + 0x1C9127A7), (BYTE*)"\xFF\x8F\xA0\x6F\x00\x00", 6, hProcess);
+				ClearScreen();
+				Menu();
+			}
+		}
 
 		if (GetAsyncKeyState(VK_NUMPAD8) & 1)
 		{

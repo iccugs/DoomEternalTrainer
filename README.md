@@ -1,11 +1,8 @@
 # DoomEternal-Trainer
-Doom Eternal c++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.4).
+Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.4).
 <br>
 <br>
-As of right now, only infinite health, armor, ammo, radiation and oxygen suit, hammer and chainsaw, blood punch, and sword  work.  This is a major work in progress since the last update.
-<br>
-<br>
-The CT file is the cheat engine table that I made using a pointer address for the health value and some AutoAssembly scripts for everything else.
+The CT file is the cheat engine table that I made using a pointer address for the health and armor values and some AutoAssembly scripts for everything else.
 <br>
 <br>
 The rest of the repository is an actual fully fleshed out trainer that runs in a C++ console window for Windows.
@@ -21,6 +18,9 @@ NOTES:
 1. On the cheat engine table, you will see two auto-assembly scripts under "Health/Ammo."
 <br>
 You can only pick one or the other because of the addresses they modify.
+<br>
+<br>
+2. The grenade and flamethrower hacks work by changing the assembly opcodes from "dec" to "inc". This means that when you untoggle them, you may have to burn through extra grenades or flamethrower attacks to bring it back to normal.
 <br>
 <br>
 Screenshots:
