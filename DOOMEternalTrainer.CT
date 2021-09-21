@@ -1196,29 +1196,29 @@ DOOMEternalx64vk.exe+9FE4031: 48 8B 87 E8 F0 02 00  - mov rax,[rdi+0002F0E8]
     </CheatEntry>
     <CheatEntry>
       <ID>30</ID>
-      <Description>"Infinite Flamethrower"</Description>
+      <Description>"Infinite Flame Belch"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
   Date   : 2021-09-20
   Author : Paradox
-  Description: Infinite Flamethrower Script
+  Description: Infinite Flame Belch Script
 }
 
 [ENABLE]
-define(infFlamethrower,DOOMEternalx64vk.exe+1C9127A7)
-assert(infFlamethrower,FF 8F A0 6F 00 00)
-registersymbol(infFlamethrower)
+define(infFlame,DOOMEternalx64vk.exe+1C9127A7)
+assert(infFlame,FF 8F A0 6F 00 00)
+registersymbol(infFlame)
 
-infFlamethrower:
+infFlame:
   db FF 87 A0 6F 00 00 // inc [rdi+00006FA0]
 
 [DISABLE]
-infFlamethrower:
+infFlame:
   db FF 8F A0 6F 00 00 // dec [rdi+00006FA0]
 
-unregistersymbol(infFlamethrower)
+unregistersymbol(infFlame)
 
 //Update 1 - 2021-09-20
 {
