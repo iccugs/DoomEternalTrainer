@@ -11,7 +11,7 @@ The rest of the repository is an actual fully fleshed out trainer that runs in a
 If you don't want to go through the trouble of compiling everything from source, just go into the x64/debug folders and use the DOOMEternalTrainer.exe file.
 <br>
 <br>
-Alternatively, you can go to the the releases page <a href="https://github.com/iccugs/DoomEternalTrainer/releases">HERE</a>
+Alternatively, you can go to the the releases page <a href="https://github.com/iccugs/DoomEternalTrainer/releases">HERE</a> and download the latest version.
 <br>
 <br>
 NOTES:
