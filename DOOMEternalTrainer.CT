@@ -221,7 +221,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
-          <LastState Value="185" RealAddress="1F99401EEFC"/>
+          <LastState Value="999" RealAddress="1C18D3D4F1C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -234,7 +234,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
-          <LastState Value="150" RealAddress="1F99401EF5C"/>
+          <LastState Value="0" RealAddress="1C18D3D4F7C"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
@@ -599,7 +599,7 @@ DOOMEternalx64vk.exe+140D0D9: 45 33 C9                 - xor r9d,r9d
     </CheatEntry>
     <CheatEntry>
       <ID>96</ID>
-      <Description>"Infinite Ammo"</Description>
+      <Description>"Infinite Ammo/Chainsaw"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : DOOMEternalx64vk.exe
@@ -660,7 +660,7 @@ DOOMEternalx64vk.exe+1C19070: EB 06           - jmp DOOMEternalx64vk.exe+1C19078
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-07-09
+  Date   : 2021-09-21
   Author : Paradox
   Description: Infinite Sword Script
 }
@@ -671,13 +671,42 @@ assert(infSword,F3 0F 11 4B 08)
 registersymbol(infSword)
 
 infSword:
-  db 90 90 90 90 90 // NOP array
+  db F3 0F 58 4B 08 // addss xmm1,[rbx+08]
 
 [DISABLE]
 infSword:
   db F3 0F 11 4B 08 // movss [rbx+08],xmm1
 
 unregistersymbol(infSword)
+
+//Update 3 - 2021-09-21
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+182B890
+
+DOOMEternalx64vk.exe+182B86C: 48 8B 03        - mov rax,[rbx]
+DOOMEternalx64vk.exe+182B86F: F3 0F 58 F7     - addss xmm6,xmm7
+DOOMEternalx64vk.exe+182B873: 0F 57 D2        - xorps xmm2,xmm2
+DOOMEternalx64vk.exe+182B876: 48 8B CB        - mov rcx,rbx
+DOOMEternalx64vk.exe+182B879: F3 0F 10 D0     - movss xmm2,xmm0
+DOOMEternalx64vk.exe+182B87D: 0F 57 C0        - xorps xmm0,xmm0
+DOOMEternalx64vk.exe+182B880: 0F 28 CE        - movaps xmm1,xmm6
+DOOMEternalx64vk.exe+182B883: F3 0F 5D CA     - minss xmm1,xmm2
+DOOMEternalx64vk.exe+182B887: F3 0F 10 53 0C  - movss xmm2,[rbx+0C]
+DOOMEternalx64vk.exe+182B88C: F3 0F 5F C8     - maxss xmm1,xmm0
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+182B890: F3 0F 11 4B 08  - movss [rbx+08],xmm1
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+182B895: FF 50 48        - call qword ptr [rax+48]
+DOOMEternalx64vk.exe+182B898: 0F 28 74 24 30  - movaps xmm6,[rsp+30]
+DOOMEternalx64vk.exe+182B89D: 0F 28 7C 24 20  - movaps xmm7,[rsp+20]
+DOOMEternalx64vk.exe+182B8A2: 48 83 C4 40     - add rsp,40
+DOOMEternalx64vk.exe+182B8A6: 5B              - pop rbx
+DOOMEternalx64vk.exe+182B8A7: C3              - ret
+DOOMEternalx64vk.exe+182B8A8: CC              - int 3
+DOOMEternalx64vk.exe+182B8A9: CC              - int 3
+DOOMEternalx64vk.exe+182B8AA: CC              - int 3
+DOOMEternalx64vk.exe+182B8AB: CC              - int 3
+}
 
 //Update 2 - 2021-09-18
 {
@@ -769,7 +798,7 @@ DOOMEternalx64vk.exe+1750079: CC              - int 3
     </CheatEntry>
     <CheatEntry>
       <ID>24</ID>
-      <Description>"Infinite Hammer/Chainsaw"</Description>
+      <Description>"Infinite Hammer"</Description>
       <LastState/>
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal

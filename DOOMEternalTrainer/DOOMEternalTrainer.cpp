@@ -18,11 +18,11 @@ void Menu()
 	std::cout << "NUM0 = Infinite Health = " << bHealth << "\n";
 	std::cout << "NUM1 = Infinite Armor = " << bArmor << "\n";
 	std::cout << "NUM2 = Infinite Rad/O2 = " << bRadO2 << "\n";
-	std::cout << "NUM3 = Infinite Ammo = " << bAmmo << "\n";
+	std::cout << "NUM3 = Infinite Ammo/Chainsaw = " << bAmmo << "\n";
 	std::cout << "NUM4 = Infinite Sword = " << bSword << "\n";
-	std::cout << "NUM5 = Infinite Hammer/Chainsaw = " << bHammer << "\n";
+	std::cout << "NUM5 = Infinite Hammer = " << bHammer << "\n";
 	std::cout << "NUM6 = Infinite Grenades = " << bGrenades << "\n";
-	std::cout << "NUM7 = Infinite Flamethrower = " << bFlame << "\n";
+	std::cout << "NUM7 = Infinite Flame Belch = " << bFlame << "\n";
 	std::cout << "NUM8 = Infinite Dash = " << bDash << "\n";
 	std::cout << "NUM9 = Infinite Blood Punch = " << bPunch << "\n\n";
 	std::cout << "INSERT = EXIT TRAINER\n";
@@ -131,7 +131,7 @@ int main()
 			bSword = !bSword;
 			if (bSword)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x182B890), 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x182B890), (BYTE*)"\xF3\x0F\x58\x4B\x08", 5, hProcess);
 				ClearScreen();
 				Menu();
 			}
