@@ -5,7 +5,7 @@
       <ID>74</ID>
       <Description>"Health/Armor"</Description>
       <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
-      <LastState Value="" RealAddress="00000000"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -249,6 +249,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
+          <LastState Value="200" RealAddress="2459A81F284"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
@@ -261,11 +262,12 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
+          <LastState Value="150" RealAddress="2459A81F334"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
-          <Address>"DOOMEternalx64vk.exe"+069E7AD0</Address>
+          <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
           <Offsets>
-            <Offset>D4</Offset>
+            <Offset>14C</Offset>
             <Offset>20</Offset>
             <Offset>0</Offset>
           </Offsets>

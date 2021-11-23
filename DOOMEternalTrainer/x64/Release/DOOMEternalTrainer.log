@@ -1,0 +1,10 @@
+﻿  ascii.cpp
+  DOOMEternalTrainer.cpp
+  mem.cpp
+  proc.cpp
+  stdafx.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 88 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  DOOMEternalTrainer.vcxproj -> C:\Users\john\source\repos\DOOMEternalTrainer\x64\Release\DOOMEternalTrainer.exe

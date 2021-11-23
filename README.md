@@ -1,5 +1,7 @@
 # DoomEternal-Trainer
-Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.4).
+Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.66).
+<br>
+Currently updating hacks for latest patch.  Currently only health and armor pointers work in the cheat engine table and the only working hacks in the c++ console trainer are the accompanying health and armor hacks updated in the sorce from the pointers found by cheat engine.  If you want the updated executable, look in the debug folder.
 <br>
 <br>
 The CT file is the cheat engine table that I made using a pointer address for the health and armor values and some AutoAssembly scripts for everything else.

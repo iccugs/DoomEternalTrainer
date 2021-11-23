@@ -60,9 +60,9 @@ int main()
 	while (GetExitCodeProcess(hProcess, &dwExit) && dwExit == STILL_ACTIVE)
 	{
 
-		playerPtr = moduleBase + 0x069E7AD0;
-		healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0x74 });
-		armorAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0xD4 });
+		playerPtr = moduleBase + 0x06B854A0;
+		healthAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0x9C });
+		armorAddr = FindDMAAddy(hProcess, playerPtr, { 0x00,0x20,0x14C });
 
 		if (GetAsyncKeyState(VK_NUMPAD0) & 1)
 		{
