@@ -93,17 +93,17 @@ int main()
 			bRadO2 = !bRadO2;
 			if (bRadO2)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x182B65A), 5, hProcess);
-				mem::NopEx((BYTE*)(moduleBase + 0x14CFE86), 8, hProcess);
-				mem::NopEx((BYTE*)(moduleBase + 0x14CFD06), 8, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x18E450A), 5, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x1545AD6), 8, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x1545956), 8, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x182B65A), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
-				mem::PatchEx((BYTE*)(moduleBase + 0x14CFE86), (BYTE*)"\xF3\x0F\x11\x9A\xD0\x04\x00\x00", 8, hProcess);
-				mem::PatchEx((BYTE*)(moduleBase + 0x14CFD06), (BYTE*)"\xF3\x0F\x10\x92\xB8\x06\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x18E450A), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1545AD6), (BYTE*)"\xF3\x0F\x11\x9A\xD0\x04\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1545956), (BYTE*)"\xF3\x0F\x10\x92\xB8\x06\x00\x00", 8, hProcess);
 				ClearScreen();
 				Menu();
 			}
@@ -114,13 +114,13 @@ int main()
 			bAmmo = !bAmmo;
 			if (bAmmo)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C19051), (BYTE*)"\x01\x7B\x40", 3, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CF7BA1), (BYTE*)"\x01\x7B\x40", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C19051), (BYTE*)"\x89\x7B\x40", 3, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CF7BA1), (BYTE*)"\x89\x7B\x40", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}
@@ -131,13 +131,13 @@ int main()
 			bSword = !bSword;
 			if (bSword)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x182B890), (BYTE*)"\xF3\x0F\x58\x4B\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x18E4740), (BYTE*)"\xF3\x0F\x58\x4B\x08", 5, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x182B890), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x18E4740), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
 				ClearScreen();
 				Menu();
 			}
