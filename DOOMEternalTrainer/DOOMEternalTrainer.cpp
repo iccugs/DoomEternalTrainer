@@ -103,7 +103,7 @@ int main()
 			{
 				mem::PatchEx((BYTE*)(moduleBase + 0x18E450A), (BYTE*)"\xF3\x0F\x11\x4B\x08", 5, hProcess);
 				mem::PatchEx((BYTE*)(moduleBase + 0x1545AD6), (BYTE*)"\xF3\x0F\x11\x9A\xD0\x04\x00\x00", 8, hProcess);
-				mem::PatchEx((BYTE*)(moduleBase + 0x1545956), (BYTE*)"\xF3\x0F\x10\x92\xB8\x06\x00\x00", 8, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1545956), (BYTE*)"\xF3\x0F\x11\x9A\xB8\x06\x00\x00", 8, hProcess);
 				ClearScreen();
 				Menu();
 			}
@@ -148,13 +148,13 @@ int main()
 			bHammer = !bHammer;
 			if (bHammer)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C0D5B9), (BYTE*)"\x44\x01\xA8\x1C\x67\x02\x00", 7, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CEC009), (BYTE*)"\x44\x01\xA8\x04\x6A\x02\x00", 7, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C0D5B9), (BYTE*)"\x44\x89\xA8\x1C\x67\x02\x00", 7, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CEC009), (BYTE*)"\x44\x89\xA8\x04\x6A\x02\x00", 7, hProcess);
 				ClearScreen();
 				Menu();
 			}
@@ -199,13 +199,13 @@ int main()
 			bDash = !bDash;
 			if (bDash)
 			{
-				mem::NopEx((BYTE*)(moduleBase + 0x182B5EB), 5, hProcess);
+				mem::NopEx((BYTE*)(moduleBase + 0x18E449B), 5, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x182B5EB), (BYTE*)"\xF3\x0F\x11\x4F\x08", 5, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x18E449B), (BYTE*)"\xF3\x0F\x11\x4F\x08", 5, hProcess);
 				ClearScreen();
 				Menu();
 			}
@@ -216,13 +216,13 @@ int main()
 			bPunch = !bPunch;
 			if (bPunch)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1BCDE24), (BYTE*)"\xEB\x14", 2, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CAC794), (BYTE*)"\xEB\x14", 2, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1BCDE24), (BYTE*)"\x75\x14", 2, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0x1CAC794), (BYTE*)"\x75\x14", 2, hProcess);
 				ClearScreen();
 				Menu();
 			}

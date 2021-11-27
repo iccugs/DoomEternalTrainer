@@ -5,7 +5,7 @@
       <ID>74</ID>
       <Description>"Health/Armor"</Description>
       <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -249,7 +249,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
-          <LastState Value="999" RealAddress="1A208CAD274"/>
+          <LastState Value="200" RealAddress="15EEB1BF034"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
@@ -262,7 +262,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
-          <LastState Value="999" RealAddress="1A208CAD324"/>
+          <LastState Value="90" RealAddress="15EEB1BF0E4"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
@@ -278,7 +278,7 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
       <ID>68</ID>
       <Description>"Infinite Rad/O2"</Description>
       <Options moHideChildren="1" moManualExpandCollapse="1" moAllowManualCollapseAndExpand="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
@@ -977,24 +977,53 @@ DOOMEternalx64vk.exe+1750079: CC              - int 3
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-07-09
+  Date   : 2021-11-26
   Author : Paradox
   Description: Infinite Hammer/Chainsaw Script
 }
 
 [ENABLE]
-define(infHammer,DOOMEternalx64vk.exe+1C0D5B9)
-assert(infHammer,44 89 A8 1C 67 02 00)
+define(infHammer,DOOMEternalx64vk.exe+1CEC009)
+assert(infHammer,44 89 A8 04 6A 02 00)
 registersymbol(infHammer)
 
 infHammer:
-  db 44 01 A8 1C 67 02 00 // add [rax+0002671C],r13d
+  db 44 01 A8 04 6A 02 00 // add [rax+00026A04],r13d
 
 [DISABLE]
 infHammer:
-  db 44 89 A8 1C 67 02 00 // mov [rax+0002671C],r13d
+  db 44 89 A8 04 6A 02 00 // mov [rax+00026A04],r13d
 
 unregistersymbol(infHammer)
+
+//Update 3 - 2021-11-26
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1CEC009
+
+DOOMEternalx64vk.exe+1CEBFE4: 3D FE FF FF 01        - cmp eax,01FFFFFE
+DOOMEternalx64vk.exe+1CEBFE9: 74 1A                 - je DOOMEternalx64vk.exe+1CEC005
+DOOMEternalx64vk.exe+1CEBFEB: 4C 39 6B 08           - cmp [rbx+08],r13
+DOOMEternalx64vk.exe+1CEBFEF: 75 14                 - jne DOOMEternalx64vk.exe+1CEC005
+DOOMEternalx64vk.exe+1CEBFF1: 4C 39 2D 28 85 E1 04  - cmp [DOOMEternalx64vk.exe+6B04520],r13
+DOOMEternalx64vk.exe+1CEBFF8: 74 0B                 - je DOOMEternalx64vk.exe+1CEC005
+DOOMEternalx64vk.exe+1CEBFFA: 48 8B D3              - mov rdx,rbx
+DOOMEternalx64vk.exe+1CEBFFD: 48 8B CB              - mov rcx,rbx
+DOOMEternalx64vk.exe+1CEC000: E8 3B 62 FB FE        - call DOOMEternalx64vk.exe+CA2240
+DOOMEternalx64vk.exe+1CEC005: 48 8B 43 08           - mov rax,[rbx+08]
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+1CEC009: 44 89 A8 04 6A 02 00  - mov [rax+00026A04],r13d
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+1CEC010: 48 8B 8D 40 0A 00 00  - mov rcx,[rbp+00000A40]
+DOOMEternalx64vk.exe+1CEC017: 48 33 CC              - xor rcx,rsp
+DOOMEternalx64vk.exe+1CEC01A: E8 A1 85 B6 00        - call DOOMEternalx64vk.exe+28545C0
+DOOMEternalx64vk.exe+1CEC01F: 48 81 C4 88 0B 00 00  - add rsp,00000B88
+DOOMEternalx64vk.exe+1CEC026: 41 5D                 - pop r13
+DOOMEternalx64vk.exe+1CEC028: 5E                    - pop rsi
+DOOMEternalx64vk.exe+1CEC029: 5B                    - pop rbx
+DOOMEternalx64vk.exe+1CEC02A: 5D                    - pop rbp
+DOOMEternalx64vk.exe+1CEC02B: C3                    - ret
+DOOMEternalx64vk.exe+1CEC02C: CC                    - int 3
+}
 
 //Update 2 - 2021-09-18
 {
@@ -1091,13 +1120,13 @@ DOOMEternalx64vk.exe+1B118AF: CC                    - int 3
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-09-18
+  Date   : 2021-11-26
   Author : Paradox
   Description: Infinite Bood Punch Script
 }
 
 [ENABLE]
-define(infBloodpunch,DOOMEternalx64vk.exe+1BCDE24)
+define(infBloodpunch,DOOMEternalx64vk.exe+1CAC794)
 assert(infBloodpunch,75 14)
 registersymbol(infBloodpunch)
 
@@ -1109,6 +1138,35 @@ infBloodpunch:
   db 75 14 // jne DOOMEternalx64vk.exe+1BCDE3A
 
 unregistersymbol(infBloodpunch)
+
+//Update 2 - 2021-11-26
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+1CAC794
+
+DOOMEternalx64vk.exe+1CAC75F: 41 FF 90 18 01 00 00     - call qword ptr [r8+00000118]
+DOOMEternalx64vk.exe+1CAC766: 48 8B 05 D3 4C F0 04     - mov rax,[DOOMEternalx64vk.exe+6BB1440]
+DOOMEternalx64vk.exe+1CAC76D: 48 8D 4C 24 58           - lea rcx,[rsp+58]
+DOOMEternalx64vk.exe+1CAC772: 8B 50 08                 - mov edx,[rax+08]
+DOOMEternalx64vk.exe+1CAC775: E8 D6 6C 81 FE           - call DOOMEternalx64vk.exe+4C3450
+DOOMEternalx64vk.exe+1CAC77A: 48 8B 08                 - mov rcx,[rax]
+DOOMEternalx64vk.exe+1CAC77D: 48 03 4C 24 50           - add rcx,[rsp+50]
+DOOMEternalx64vk.exe+1CAC782: 48 89 8F 78 01 00 00     - mov [rdi+00000178],rcx
+DOOMEternalx64vk.exe+1CAC789: 48 8B 05 30 4E F0 04     - mov rax,[DOOMEternalx64vk.exe+6BB15C0]
+DOOMEternalx64vk.exe+1CAC790: 83 78 08 00              - cmp dword ptr [rax+08],00
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+1CAC794: 75 14                    - jne DOOMEternalx64vk.exe+1CAC7AA
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+1CAC796: F3 0F 10 87 38 01 00 00  - movss xmm0,[rdi+00000138]
+DOOMEternalx64vk.exe+1CAC79E: F3 0F 5C C6              - subss xmm0,xmm6
+DOOMEternalx64vk.exe+1CAC7A2: F3 0F 11 87 38 01 00 00  - movss [rdi+00000138],xmm0
+DOOMEternalx64vk.exe+1CAC7AA: 48 8B CF                 - mov rcx,rdi
+DOOMEternalx64vk.exe+1CAC7AD: E8 0E F2 FF FF           - call DOOMEternalx64vk.exe+1CAB9C0
+DOOMEternalx64vk.exe+1CAC7B2: 48 8B 05 67 7D E5 04     - mov rax,[DOOMEternalx64vk.exe+6B04520]
+DOOMEternalx64vk.exe+1CAC7B9: 0F 28 74 24 30           - movaps xmm6,[rsp+30]
+DOOMEternalx64vk.exe+1CAC7BE: 48 85 C0                 - test rax,rax
+DOOMEternalx64vk.exe+1CAC7C1: 74 2E                    - je DOOMEternalx64vk.exe+1CAC7F1
+DOOMEternalx64vk.exe+1CAC7C3: 48 8D 98 38 BF 1A 00     - lea rbx,[rax+001ABF38]
+}
 
 //Update 1 - 2021-09-18
 {
@@ -1176,13 +1234,13 @@ DOOMEternalx64vk.exe+1AD59B8: 48 8D 98 30 BC 1A 00     - lea rbx,[rax+001ABC30]
       <VariableType>Auto Assembler Script</VariableType>
       <AssemblerScript>{ Game   : Doom Eternal
   Version: 
-  Date   : 2021-09-19
+  Date   : 2021-11-26
   Author : Paradox
   Description: Infinite Dash Script
 }
 
 [ENABLE]
-define(infDash,DOOMEternalx64vk.exe+182B5EB)
+define(infDash,DOOMEternalx64vk.exe+18E449B)
 assert(infDash,F3 0F 11 4F 08)
 registersymbol(infDash)
 
@@ -1194,6 +1252,35 @@ infDash:
   db F3 0F 11 4F 08 // movss [rdi+08],xmm1
 
 unregistersymbol(infDash)
+
+//Update 2 - 2021-11-26
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+18E449B
+
+DOOMEternalx64vk.exe+18E4477: 48 8B 07        - mov rax,[rdi]
+DOOMEternalx64vk.exe+18E447A: F3 0F 5C F7     - subss xmm6,xmm7
+DOOMEternalx64vk.exe+18E447E: 0F 57 D2        - xorps xmm2,xmm2
+DOOMEternalx64vk.exe+18E4481: 48 8B CF        - mov rcx,rdi
+DOOMEternalx64vk.exe+18E4484: F3 0F 10 D0     - movss xmm2,xmm0
+DOOMEternalx64vk.exe+18E4488: 0F 57 C0        - xorps xmm0,xmm0
+DOOMEternalx64vk.exe+18E448B: 0F 28 CE        - movaps xmm1,xmm6
+DOOMEternalx64vk.exe+18E448E: F3 0F 5D CA     - minss xmm1,xmm2
+DOOMEternalx64vk.exe+18E4492: F3 0F 10 57 0C  - movss xmm2,[rdi+0C]
+DOOMEternalx64vk.exe+18E4497: F3 0F 5F C8     - maxss xmm1,xmm0
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+18E449B: F3 0F 11 4F 08  - movss [rdi+08],xmm1
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+18E44A0: 48 8B 5C 24 50  - mov rbx,[rsp+50]
+DOOMEternalx64vk.exe+18E44A5: 0F 28 74 24 30  - movaps xmm6,[rsp+30]
+DOOMEternalx64vk.exe+18E44AA: 0F 28 7C 24 20  - movaps xmm7,[rsp+20]
+DOOMEternalx64vk.exe+18E44AF: 48 83 C4 40     - add rsp,40
+DOOMEternalx64vk.exe+18E44B3: 5F              - pop rdi
+DOOMEternalx64vk.exe+18E44B4: 48 FF 60 48     - jmp qword ptr [rax+48]
+DOOMEternalx64vk.exe+18E44B8: CC              - int 3
+DOOMEternalx64vk.exe+18E44B9: CC              - int 3
+DOOMEternalx64vk.exe+18E44BA: CC              - int 3
+DOOMEternalx64vk.exe+18E44BB: CC              - int 3
+}
 
 //Update 1 - 2021-09-19
 {
@@ -2376,6 +2463,31 @@ DOOMEternalx64vk.exe+9FE40D1: 48 8D 4D CF                    - lea rcx,[rbp-31]
     <CodeEntry>
       <Description>Change of movss [rdi+08],xmm1</Description>
       <AddressString>DOOMEternalx64vk.exe+182B5EB</AddressString>
+      <Before>
+        <Byte>0C</Byte>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>5F</Byte>
+        <Byte>C8</Byte>
+      </Before>
+      <Actual>
+        <Byte>F3</Byte>
+        <Byte>0F</Byte>
+        <Byte>11</Byte>
+        <Byte>4F</Byte>
+        <Byte>08</Byte>
+      </Actual>
+      <After>
+        <Byte>48</Byte>
+        <Byte>8B</Byte>
+        <Byte>5C</Byte>
+        <Byte>24</Byte>
+        <Byte>50</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of movss [rdi+08],xmm1</Description>
+      <AddressString>DOOMEternalx64vk.exe+18E449B</AddressString>
       <Before>
         <Byte>0C</Byte>
         <Byte>F3</Byte>
