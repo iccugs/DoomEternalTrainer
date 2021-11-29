@@ -165,13 +165,13 @@ int main()
 			bGrenades = !bGrenades;
 			if (bGrenades)
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C91270C), (BYTE*)"\xFF\x84\xC7\x50\x6F\x00\x00", 7, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0xA3644C4), (BYTE*)"\xFF\x04\xC7", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}
 			else
 			{
-				mem::PatchEx((BYTE*)(moduleBase + 0x1C91270C), (BYTE*)"\xFF\x8C\xC7\x50\x6F\x00\x00", 7, hProcess);
+				mem::PatchEx((BYTE*)(moduleBase + 0xA3644C4), (BYTE*)"\xFF\x0C\xC7", 3, hProcess);
 				ClearScreen();
 				Menu();
 			}

@@ -249,7 +249,6 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>89</ID>
           <Description>"health pointer"</Description>
-          <LastState Value="200" RealAddress="15EEB1BF034"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
@@ -262,7 +261,6 @@ DOOMEternalx64vk.exe+CF9275: 48 8B 03                 - mov rax,[rbx]
         <CheatEntry>
           <ID>90</ID>
           <Description>"armor pointer"</Description>
-          <LastState Value="90" RealAddress="15EEB1BF0E4"/>
           <ShowAsSigned>0</ShowAsSigned>
           <VariableType>Float</VariableType>
           <Address>"DOOMEternalx64vk.exe"+06B854A0</Address>
@@ -1354,18 +1352,47 @@ DOOMEternalx64vk.exe+174FDE6: CC              - int 3
 }
 
 [ENABLE]
-define(infGrenades,DOOMEternalx64vk.exe+1C91270C)
-assert(infGrenades,FF 8C C7 50 6F 00 00)
+define(infGrenades,DOOMEternalx64vk.exe+A3644C4)
+assert(infGrenades,FF 0C C7)
 registersymbol(infGrenades)
 
 infGrenades:
-  db FF 84 C7 50 6F 00 00 // inc [rdi+rax*8+00006F50]
+  db FF 04 C7 // inc [rdi+rax*8]
 
 [DISABLE]
 infGrenades:
-  db FF 8C C7 50 6F 00 00 // dec [rdi+rax*8+00006F50]
+  db FF 0C C7 // dec [rdi+rax*8]
 
 unregistersymbol(infGrenades)
+
+//Update 3 - 2021-11-29
+{
+// ORIGINAL CODE - INJECTION POINT: DOOMEternalx64vk.exe+A3644C4
+
+DOOMEternalx64vk.exe+A364499: 0F 84 AA 00 00 00     - je DOOMEternalx64vk.exe+A364549
+DOOMEternalx64vk.exe+A36449F: 4C 39 FE              - cmp rsi,r15
+DOOMEternalx64vk.exe+A3644A2: 0F 84 A1 00 00 00     - je DOOMEternalx64vk.exe+A364549
+DOOMEternalx64vk.exe+A3644A8: 48 8B 0D 41 21 85 FC  - mov rcx,[DOOMEternalx64vk.exe+6BB65F0]
+DOOMEternalx64vk.exe+A3644AF: 83 79 08 00           - cmp dword ptr [rcx+08],00
+DOOMEternalx64vk.exe+A3644B3: 75 12                 - jne DOOMEternalx64vk.exe+A3644C7
+DOOMEternalx64vk.exe+A3644B5: 84 DB                 - test bl,bl
+DOOMEternalx64vk.exe+A3644B7: 75 0E                 - jne DOOMEternalx64vk.exe+A3644C7
+DOOMEternalx64vk.exe+A3644B9: 49 8D 8E CA 02 00 00  - lea rcx,[r14+000002CA]
+DOOMEternalx64vk.exe+A3644C0: 48 8D 04 89           - lea rax,[rcx+rcx*4]
+// ---------- INJECTING HERE ----------
+DOOMEternalx64vk.exe+A3644C4: FF 0C C7              - dec [rdi+rax*8]
+// ---------- DONE INJECTING  ----------
+DOOMEternalx64vk.exe+A3644C7: 48 8B 0D 52 00 7A FC  - mov rcx,[DOOMEternalx64vk.exe+6B04520]
+DOOMEternalx64vk.exe+A3644CE: 48 8D 55 BF           - lea rdx,[rbp-41]
+DOOMEternalx64vk.exe+A3644D2: 48 81 C1 60 5A 12 00  - add rcx,00125A60
+DOOMEternalx64vk.exe+A3644D9: 41 B8 01 00 00 00     - mov r8d,00000001
+DOOMEternalx64vk.exe+A3644DF: E8 7C 99 98 F6        - call DOOMEternalx64vk.exe+CEDE60
+DOOMEternalx64vk.exe+A3644E4: 48 8B 87 00 F5 02 00  - mov rax,[rdi+0002F500]
+DOOMEternalx64vk.exe+A3644EB: 48 8D 4D CF           - lea rcx,[rbp-31]
+DOOMEternalx64vk.exe+A3644EF: 8B 90 74 08 00 00     - mov edx,[rax+00000874]
+DOOMEternalx64vk.exe+A3644F5: E8 56 EF 15 F6        - call DOOMEternalx64vk.exe+4C3450
+DOOMEternalx64vk.exe+A3644FA: 4B 8D 14 B6           - lea rdx,[r14+r14*4]
+}
 
 //Update 2 - 2021-09-20
 {
