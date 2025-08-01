@@ -6,7 +6,7 @@ This project was built using tutorials and code examples from [GuidedHacking.com
 Special thanks to [GuidedHacking.com](https://guidedhacking.com) for their comprehensive game hacking tutorials and code examples.
 
 ## Learn to Make Game Hacks
-I learned everything I needed to know about pointer scanning and hacking Unity games by using the website [GuidedHacking.com](https://guidedhacking.com). If you're interested in creating fun and easy game hacks like this, I highly recommend signing up for their website and exploring their tutorials.
+I learned everything I needed to know about pointer scanning and memory manipulation to hack games by using the website [GuidedHacking.com](https://guidedhacking.com). If you're interested in creating fun and easy game hacks like this, I highly recommend signing up for their website and exploring their tutorials.
 
 ---
 
