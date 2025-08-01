@@ -8,6 +8,9 @@ Special thanks to [GuidedHacking.com](https://guidedhacking.com) for their compr
 ## Learn to Make Game Hacks
 I learned everything I needed to know about pointer scanning and hacking Unity games by using the website [GuidedHacking.com](https://guidedhacking.com). If you're interested in creating fun and easy game hacks like this, I highly recommend signing up for their website and exploring their tutorials.
 
+---
+
+## Project Overview
 Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.66).
 <br>
 Currently updating hacks for latest patch. The auto-assembly scripts in the cheat engine table for infinite health and armor currently not working.  If you want to use the cheat engine table for infinite health and armor, just set a value to the appropriate pointers and locking it by checking the box.  Otherwise, all hacks should be working with the exception of infinite flame belch.
@@ -23,15 +26,17 @@ If you don't want to go through the trouble of compiling everything from source,
 <br>
 <br>
 Alternatively, you can go to the the releases page <a href="https://github.com/iccugs/DoomEternalTrainer/releases">HERE</a> and download the latest version.
-<br>
-<br>
-NOTES:
+
+---
+
+## Notes
 1. On the cheat engine table, you will see two auto-assembly scripts under "Health/Ammo." You can only pick one or the other because of the addresses they modify.
 2. The grenade and flamethrower hacks work by changing the assembly opcodes from "dec" to "inc". This means that when you untoggle them, you may have to burn through extra grenades or flamethrower attacks to bring it back to normal.
 3. To use the unlimited chainsaw ammo hack, you need to already have 2 chainsaw uses acquired or else the chainsaw ammo will still decrease.
-<br>
-<br>
-Screenshots:
+
+---
+
+## Screenshots
 
 <p align="center">
   <img src="./screenshots/1.PNG" />
