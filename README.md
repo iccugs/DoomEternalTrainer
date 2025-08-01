@@ -1,4 +1,13 @@
 # DoomEternal-Trainer
+
+Credits
+This project was built using tutorials and code examples from [GuidedHacking.com](https://guidedhacking.com). All credit for the original memory manipulation, process injection, and core trainer functionality goes to the GuidedHacking community and their educational resources. This project simply builds upon their foundational work and adapts it for the Castlevania Dominus Collection.
+
+Special thanks to [GuidedHacking.com](https://guidedhacking.com) for their comprehensive game hacking tutorials and code examples.
+
+Learn to Make Game Hacks
+I learned everything I needed to know about pointer scanning and hacking Unity games by using the website [GuidedHacking.com](https://guidedhacking.com). If you're interested in creating fun and easy game hacks like this, I highly recommend signing up for their website and exploring their tutorials.
+
 Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.66).
 <br>
 Currently updating hacks for latest patch. The auto-assembly scripts in the cheat engine table for infinite health and armor currently not working.  If you want to use the cheat engine table for infinite health and armor, just set a value to the appropriate pointers and locking it by checking the box.  Otherwise, all hacks should be working with the exception of infinite flame belch.
