@@ -1,11 +1,11 @@
 # DoomEternal-Trainer
 
-Credits
+## Credits
 This project was built using tutorials and code examples from [GuidedHacking.com](https://guidedhacking.com). All credit for the original memory manipulation, process injection, and core trainer functionality goes to the GuidedHacking community and their educational resources. This project simply builds upon their foundational work and adapts it for the Castlevania Dominus Collection.
 
 Special thanks to [GuidedHacking.com](https://guidedhacking.com) for their comprehensive game hacking tutorials and code examples.
 
-Learn to Make Game Hacks
+## Learn to Make Game Hacks
 I learned everything I needed to know about pointer scanning and hacking Unity games by using the website [GuidedHacking.com](https://guidedhacking.com). If you're interested in creating fun and easy game hacks like this, I highly recommend signing up for their website and exploring their tutorials.
 
 Doom Eternal C++ trainer and accompanying cheat engine table for the latest DLC (Ancient Gods Part 2 Update 6.66).
